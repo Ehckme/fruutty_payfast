@@ -1,0 +1,110 @@
+{% extends 'base_fruuty.html' %}
+
+{% block title %}
+    drive upload
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+    <div class="generate_token_container" >
+
+     <form action = "{{ url_for('drive_upload',
+                    id='{}'.format(id),
+                    email='{}'.format(email),
+                    role='{}'.format(role)
+
+    ) }}" method = "post" enctype="multipart/form-data">
+        <label for="fcompany_name"> company name  </label>
+        <input type="text" id="company_name" name="company_name" placeholder="enter company name" maxlength="60" required/>
+        <label for="flink"> url link  </label>
+        <input type="text" id="link" name="link" placeholder="enter url link" maxlength="500" required/>
+        <label for="fupload"> upload image  </label>
+        <input id="file" type="file" name="file" />
+
+
+
+
+
+
+
+         <div id="id01" class="modal">
+
+  <div class=" generate_token_container ">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+        <h2> Paid Amount </h2>
+
+    </div>
+
+    <div class="container">
+      <label for="uname"> Amount </label>
+      <input type="text" placeholder="enter amount " name="amount" required>
+
+
+
+
+          <label for="cars">Discount?:</label>
+          <select id="discount" name="discount" style="width:100%;">
+            {% for item in data %}
+              <option value="{{ item.discount }}">{{ item.discount }}</option>
+              {% endfor %}
+          </select>
+
+
+
+
+        <input type = "submit" value="Finish Upload">
+
+      <label>
+
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    </form>
+
+        <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;"> upload </button>
+
+</div>
+
+
+
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base_fruuty.html' %}
+
+    {% block title %}
+        sent tokens
+    {% endblock  %}
+
+{% block content %}
+
+
+
+<div class="body html">
+
+
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+    <div id="London" class="tabcontent">
+  <h1>London</h1>
+  <p>London is the capital city of England.</p>
+</div>
+
+<div id="Paris" class="tabcontent">
+
+
+    <h1> sent tokens  </h1>
+
+        <div class="generate_token_container">
+
+            {{ sent_token_notification_list }}
+
+
+            </div>
+
+</div>
+
+
+<a href=" {{ url_for('fruutty_token.send_token') }} ">
+    <button class="tablink" style="background-color:deeppink;"  > send token </button>  </a>
+
+<button class="tablink" onclick="openCity('Paris', this, 'deeppink')"
+        id="defaultOpen" style="background-color:deeppink;"> sent token </button>
+
+<a href=" {{ url_for('fruutty_token.received_tokens') }} ">
+    <button class="tablink" style="background-color:deeppink;"  > recieved tokens </button>  </a>
+
+
+
+<script>
+
+function openCity(cityName,elmnt,color) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.backgroundColor = "";
+  }
+  document.getElementById(cityName).style.display = "block";
+  elmnt.style.backgroundColor = color;
+
+}
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+
+</script>
+
+
+
+
+
+
+
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+    
+</div>
+
+{% endblock %}

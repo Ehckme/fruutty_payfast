@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title> fruuty market </title>
+
+<link rel="shortcut icon" type="image/x-icon"
+          href="{{ url_for('fruutty_token.static', filename='img/fruutty_icons/android_chrome_192x192.png') }}" >
+
+
+<link rel="stylesheet" type="text/css"
+          href="{{ url_for('fruutty_token.static', filename='style/fruuty_market.css') }}" >
+
+<style>
+.music_container {
+  position: relative;
+  width: 100%;
+}
+
+.music_image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.music_container_overlay {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  background-color: deeppink;
+  overflow: hidden;
+  width: 100%;
+  height:0;
+  transition: .5s ease;
+}
+
+.music_container:hover .music_container_overlay {
+  bottom: 0;
+  height: 100%;
+}
+
+.music_container:hover .music_container_overlay {
+  bottom: 0;
+  height: 100%;
+}
+
+.img_text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+
+}
+
+</style>
+
+<style>
+
+    .sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+
+
+
+
+
+
+</head>
+<body>
+
+
+    <div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="{{  url_for('fruutty_token.scanner')  }}"> <button style="background-color:deeppink;"  > <img class="sticky" src="{{url_for('fruutty_token.static', filename='img/button_icons/fruutty_scan_icon.png')}}"
+                                                                                                                                      align="middle"  alt="scan icon" style="width:50%;" /> scan </button>   </a>
+
+        <a href="{{  url_for('fruutty_token.generate')  }}"> <button style="background-color:deeppink;"  > <img class="sticky" src="{{url_for('fruutty_token.static', filename='img/button_icons/fruutty_generate_icon.png')}}"
+                                                                                                                                      align="middle"  alt="generate icon" style="width:50%;" /> token </button>   </a>
+        <a href="{{  url_for('fruutty_token.send_token')  }}"  > <button style="background-color:deeppink;"  > <img class="sticky" src="{{url_for('fruutty_token.static', filename='img/button_icons/fruutty_send_icon.png')}}"
+                                                                                                                                      align="middle"  alt="send icon" style="width:50%;" /> send </button>
+        </a>
+        <a href="{{  url_for('fruutty_token.fruuty_market')  }}" > <button style="background-color:deeppink;"  > <img class="sticky" src="{{url_for('fruutty_token.static', filename='img/button_icons/fruutt_market_icon.png')}}"
+                                                                                                                                      align="middle"  alt="market icon" style="width:50%;" /> market </button> </a>
+        <a href="{{  url_for('logout.logout')  }}"> logout </a>
+
+</div>
+
+<div id="main">
+
+  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; fruutty </span>
+</div>
+
+    <script>
+
+        function openNav() {
+          document.getElementById("mySidenav").style.width = "250px";
+          document.getElementById("main").style.marginLeft = "250px";
+          document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+        }
+
+        function closeNav() {
+          document.getElementById("mySidenav").style.width = "0";
+          document.getElementById("main").style.marginLeft= "0";
+          document.body.style.backgroundColor = "white";
+        }
+    </script>
+
+
+
+
+
+
+  <div class="wrapper" >
+    <div class="object">
+      <div class="carousel">
+        <div class="cell">
+
+          {% include 'fruutty_player.html'  %}
+           <p> {{ artist_name_url }}  </p>
+            <p> {{ song_name_url }} </p>
+
+
+            <div   style="width:75%;margin: auto;">
+
+            <div class="music_container">
+                <img src="{{ image_link_url }}" alt="Avatar" class="music_image">
+              <div class="music_container_overlay">
+                <div class="img_text"> {{ artist_name_url }} {{ song_name_url }} <br>
+                <textarea id="w3review" name="w3review" rows="12" cols="33" style="width:%100;margin: auto;top:-20px;">
+
+                  {{ lyrics_url }}
+
+                </textarea>
+                  <a href=" {{ song_link_url }} " target="_blank">
+                  <div style="width:75%;margin: auto;">
+              <button class="music_container" style="border-color: white;color:white; border-radius:5px"> Go to song </button>
+
+              </div>
+                  </a>
+                </div>
+                <br>
+                <br>
+
+              </div>
+                </div>
+
+            </div>
+
+
+
+            <!--
+            <div style="width:75%;margin: auto;">
+
+              <img id="image" src="{{ image_link_url }}">
+
+            </div>
+            -->
+
+
+
+
+
+
+
+        </div>
+
+        <!-- ###################################################### -->
+        <!-- ##############        Modal block     ############# -->
+        <!-- ###################################################### -->
+
+
+
+
+
+
+
+         <!-- ###################################################### -->
+        <!-- ##############        Modal block END    ############# -->
+        <!-- ###################################################### -->
+
+
+
+
+
+
+
+        <div class="cell">
+          <h3 style="color:black;"> Food </h3>
+          <a href=" {{ food_link_url }} " target="_blank">
+          <img id="image" src="{{ url_for('fruutty_token.static', filename='img/food/{}'.format(food_image_url)  ) }}">
+          </a>
+        </div>
+        <div class="cell">
+          <h3> FASHION </h3>
+
+          <a href=" {{ fashion_link_url}} " target="_blank">
+
+          <img id="image" src="{{ url_for('fruutty_token.static', filename='img/fashion/{}'.format(fashion_image_url)  ) }}">
+          </a>
+
+
+        </div>
+        <div class="cell">
+          <h3>DRIVE </h3>
+          <a href=" {{ car_image_link }} " target="_blank">
+
+          <img id="image" src="{{ url_for('fruutty_token.static', filename='img/drive/{}'.format(car_image_url)  ) }}">
+          </a>
+
+        </div>
+        <div class="cell">
+          <h3> TECH </h3>
+
+          <a href=" {{ tech_link_url }} " target="_blank">
+          <img id="image" src="{{ url_for('fruutty_token.static', filename='img/smart_tech/{}'.format(tech_image_url)  ) }}">
+          </a>
+
+        </div>
+     </div>
+
+    </div>
+  </div>
+
+    <p class="button-group">
+      <button class="previous-button">  </button>
+      <button class="next-button">  </button>
+    </p>
+
+
+  <script src="{{ url_for('fruutty_token.static', filename='js/fruuty_market.js') }}"
+    > </script>
+
+
+</body>
+</html>

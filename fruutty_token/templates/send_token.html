@@ -1,0 +1,93 @@
+{% extends 'base_fruuty.html' %}
+
+{% block title %}
+    send token
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+
+
+
+
+    <div id="London" class="tabcontent">
+  <h1> Send  </h1>
+        <h1> Fruutty Token </h1>
+
+                <div class="generate_token_container">
+                      <form action="{{  url_for('fruutty_token.send_token')  }}" method="post" style="width:100%">
+                        <label for="femail"> email to send to </label>
+                        <input type="email" class="generate_token" id="recieving_email" name="recieving_email"
+                               placeholder="recipient eamil .." required>
+
+                        <label for="femail"> token amount </label>
+                        <input type="text" class="generate_token" id="token_amount_to_send" name="token_amount_to_send"
+                               placeholder="token amount to send .." required>
+
+                        <button id="send_token"  type="submit" style="background-color:deeppink;" > send </button>
+
+
+                      </form>
+                </div>
+
+</div>
+
+<div id="Paris" class="tabcontent">
+  <h1>Paris</h1>
+
+</div>
+
+
+<button class="tablink" onclick="openCity('London', this, 'deeppink')" id="defaultOpen"> send tokens </button>
+<a href="{{ url_for('fruutty_token.sent_tokens') }}">  <button class="tablink" > sent tokens  </button> </a>
+
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+    <script>
+function openCity(cityName,elmnt,color) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.backgroundColor = "";
+  }
+  document.getElementById(cityName).style.display = "block";
+  elmnt.style.backgroundColor = color;
+
+}
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+
+</div>
+
+
+
+
+
+{% endblock %}

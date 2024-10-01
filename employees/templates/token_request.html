@@ -1,0 +1,85 @@
+{% extends 'base_fruuty.html' %}
+
+{% block title %}
+    token request
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+
+
+
+
+                <h1> Token Request </h1>
+
+                <div class="generate_token_container">
+                     
+
+
+                    <form action="{{  url_for('fruutty_token.token_request',
+                    id='{}'.format(id),
+                    email='{}'.format(email),
+                    role='{}'.format(role)
+
+                    )  }}" method="post" style="width:100%">
+
+                        <label for="fqrcode_token"> request fruuty token </label>
+                        <input type="text" class="generate_token" id="token_request" name="token_request"
+                               placeholder="enter token request amount .." required>
+
+                        <input type="text" class="generate_token" id="reference" name="reference"
+                               placeholder="reference .." required>
+
+                        <button id="create_token"  type="submit" style="background-color:deeppink;"> request token  </button>
+
+
+                            <div >
+
+
+
+                            </div>
+
+                      </form>
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

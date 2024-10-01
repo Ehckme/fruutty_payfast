@@ -1,0 +1,54 @@
+{% extends 'base_account_recovery.html' %}
+
+{% block title %}
+    otp reset
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert success">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+    <div style="text-align:center">
+          <h2> confirm OTP </h2>
+          <p> We have sent an OTP to your email  </p>
+          <p> Check in your inbox or spam  </p>
+    </div>
+
+         <!-- Full-width columns: (hidden by default) -->
+        <div id="b1" class="containerTab center" >
+
+                  <h2> OTP code </h2>
+
+                    <div class="divider">
+                      <form action="{{ url_for('otp_reset.otp_reset') }}" method="post">
+
+                        <label for="username"> confirm otp </label>
+                        <input type="text" id="id_otp_confirm" name="otp_reset"
+                               placeholder="enter otp.." required>
+
+                        <input  id="success-btn" type="submit" value="confirm otp">
+                      </form>
+                    </div>
+
+
+        </div>
+
+
+
+</div>
+
+
+{% endblock %}

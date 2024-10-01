@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title> fruutty   </title>
+
+    <link rel="shortcut icon" type="image/x-icon"
+          href="{{ url_for('fruutty_token.static', filename='img/fruutty_icons/android_chrome_192x192.png') }}" >
+
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+     <script>
+      function onSubmit(token) {
+        document.getElementById("login_form").submit();
+      }
+    </script>
+
+</head>
+<body >
+<style>
+
+    :root {
+  --face: #be9d66;
+  --lowlight: #111;
+  --side: #896c3b;
+  --side-dark: #120e08;
+  --coin-size: 15rem;
+  --coin-face: url('https://raw.githubusercontent.com/Ehckme/Reg_auth/master/fruuty%20token.png');
+}
+
+
+
+body {
+  height: 100%;
+  background-color: silver;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*
+  everything above is positioning and variables.
+  this is where the real fun begins...
+*/
+
+.coin {
+  height: var(--coin-size);
+  width: var(--coin-size);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.coin::before {
+  content: '';
+  display: block;
+  position: relative;
+  height: var(--coin-size);
+  width: var(--coin-size);
+  border-radius: 50%;
+  background-color: var(--face);
+  animation: spin 1s linear infinite;
+  background-image: var(--coin-face);
+  background-size: 100% 100%;
+  background-position: center;
+  background-blend-mode: overlay;
+}
+
+.coin.flip::before {
+  animation-name: flip;
+}
+
+.coin.copper::before {
+  filter:
+    hue-rotate(-40deg)
+    brightness(0.75)
+    contrast(115%);
+  animation-delay: -0.25s;
+}
+
+.coin.silver::before {
+  filter: saturate(0);
+  animation-delay: -0.5s;
+}
+
+/* animation definitions */
+
+@keyframes spin {
+  0% {
+    width: var(--coin-size);
+    box-shadow:
+      0 0 0 var(--side-dark);
+    animation-timing-function: ease-in;
+  }
+
+  49.999% {
+    width: 0.1rem;
+    box-shadow:
+      0.05rem 0 0 var(--side),
+      0.1rem 0 0 var(--side),
+      0.15rem 0 0 var(--side),
+      0.2rem 0 0 var(--side),
+      0.25rem 0 0 var(--side),
+      0.3rem 0 0 var(--side),
+      0.35rem 0 0 var(--side),
+      0.4rem 0 0 var(--side),
+      0.45rem 0 0 var(--side),
+      0.5rem 0 0 var(--side),
+      0.55rem 0 0 var(--side),
+      0.6rem 0 0 var(--side),
+      0.65rem 0 0 var(--side),
+      0.7rem 0 0 var(--side),
+      0.75rem 0 0 var(--side);
+    transform: translateX(-0.375rem);
+    background-color: var(--lowlight);
+    animation-timing-function: linear;
+  }
+
+  50.001% {
+    width: 0.1rem;
+    box-shadow:
+      -0.05rem 0 0 var(--side),
+      -0.1rem 0 0 var(--side),
+      -0.15rem 0 0 var(--side),
+      -0.2rem 0 0 var(--side),
+      -0.25rem 0 0 var(--side),
+      -0.3rem 0 0 var(--side),
+      -0.35rem 0 0 var(--side),
+      -0.4rem 0 0 var(--side),
+      -0.45rem 0 0 var(--side),
+      -0.5rem 0 0 var(--side),
+      -0.55rem 0 0 var(--side),
+      -0.6rem 0 0 var(--side),
+      -0.65rem 0 0 var(--side),
+      -0.7rem 0 0 var(--side),
+      -0.75rem 0 0 var(--side);
+    transform: translateX(0.375rem);
+    background-color: var(--lowlight);
+    animation-timing-function: ease-out;
+  }
+
+  100% {
+    width: var(--coin-size);
+    box-shadow:
+      0 0 0 var(--side-dark);
+  }
+}
+
+@keyframes flip {
+  0% {
+    height: var(--coin-size);
+    box-shadow:
+      0 0 0 var(--side-dark);
+    animation-timing-function: ease-in;
+  }
+
+  49.999% {
+    height: 0.1rem;
+    box-shadow:
+      0 0.05rem 0 var(--side),
+      0 0.1rem 0 var(--side),
+      0 0.15rem 0 var(--side),
+      0 0.2rem 0 var(--side),
+      0 0.25rem 0 var(--side),
+      0 0.3rem 0 var(--side),
+      0 0.35rem 0 var(--side),
+      0 0.4rem 0 var(--side),
+      0 0.45rem 0 var(--side),
+      0 0.5rem 0 var(--side),
+      0 0.55rem 0 var(--side),
+      0 0.6rem 0 var(--side),
+      0 0.65rem 0 var(--side),
+      0 0.7rem 0 var(--side),
+      0 0.75rem 0 var(--side);
+    transform: translateY(-0.375rem);
+    background-color: var(--lowlight);
+    animation-timing-function: linear;
+  }
+
+  50.001% {
+    height: 0.1rem;
+    box-shadow:
+      0 -0.05rem 0 var(--side),
+      0 -0.1rem 0 var(--side),
+      0 -0.15rem 0 var(--side),
+      0 -0.2rem 0 var(--side),
+      0 -0.25rem 0 var(--side),
+      0 -0.3rem 0 var(--side),
+      0 -0.35rem 0 var(--side),
+      0 -0.4rem 0 var(--side),
+      0 -0.45rem 0 var(--side),
+      0 -0.5rem 0 var(--side),
+      0 -0.55rem 0 var(--side),
+      0 -0.6rem 0 var(--side),
+      0 -0.65rem 0 var(--side),
+      0 -0.7rem 0 var(--side),
+      0 -0.75rem 0 var(--side);
+    transform: translateY(0.375rem);
+    background-color: var(--lowlight);
+    animation-timing-function: ease-out;
+  }
+
+  100% {
+    height: var(--coin-size);
+    box-shadow:
+      0 0 0 var(--side-dark);
+  }
+}
+</style>
+
+<style>
+.login_container {
+  position: relative;
+  width: 100%;
+  height:400px;
+}
+
+
+
+.login_overlay {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 100%;
+  height:0;
+  transition: .5s ease;
+}
+
+.login_container:hover .login_overlay {
+  bottom: 0;
+  height: 113%;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+</style>
+<style>
+
+.tablink {
+  background-color: #FF1493;
+  color: white;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 17px;
+  width: 25%;
+}
+
+.tablink:hover {
+  background-color: #777;
+}
+
+/* Style the tab content */
+.tabcontent {
+  color: white;
+  display: none;
+  padding: 5px;
+  text-align: center;
+}
+
+#London {background-color:#6495ED;}
+#Paris {background-color:#6495ED;}
+#Tokyo {background-color:blue;}
+#Oslo {background-color:orange;}
+</style>
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+
+
+
+
+
+    <div  onclick="showlogin()">
+        <h1 style="color:white;-webkit-text-stroke-width: 1px; -webkit-text-stroke-color: black;">  WELCOME TO FRUUTTY </h1>
+
+
+    <div class="login_container" onclick="showlogin()">
+         <div class="coin">
+
+
+                </div>
+
+  <div id="login_overlay" class="login_overlay">
+
+    <div class="text" style="width:100%;margin: auto;">
+
+        <div id="London" class="tabcontent">
+           {% include 'login.html' %}
+        </div>
+
+    <div id="Paris" class="tabcontent">
+        {% include 'sign_up.html' %}
+    </div>
+
+
+    <button class="tablink" onclick="openCity('London', this, 'deeppink')" id="defaultOpen"> Login </button>
+    <button class="tablink" onclick="openCity('Paris', this, 'deeppink')"> Sign up </button>
+
+
+    </div>
+  </div>
+</div>
+
+    </div>
+    <script>
+        function openCity(cityName,elmnt,color) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("tablink");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].style.backgroundColor = "";
+          }
+          document.getElementById(cityName).style.display = "block";
+          elmnt.style.backgroundColor = color;
+
+        }
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+</script>
+
+<script>
+function showlogin() {
+  document.getElementById("login_overlay").style.bottom = "0";
+  document.getElementById("login_overlay").style.height = "113%";
+
+}
+
+
+</script>
+
+<style>
+body {
+  background-image: url({{ url_for('fruutty_token.static', filename='img/fruutty_home_image.jpg') }});
+  background-size: cover;
+}
+</style>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+{% extends 'base_account_recovery.html' %}
+
+{% block title %}
+    Reset Password
+{% endblock  %}
+<body>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert success">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}
+
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+        <br> <br> <br>
+        <br> <br> <br>
+        <div class="row center" >
+             <p>Dear User,</p>
+
+            <h1> Your request to resest password has been successfully confirmed </h1>
+
+
+        <p>    </p>
+        <p> Click on the 'Go to reset password' button to reset your password.</p>
+        <p>Sincerely,</p>
+        <p>The Marxzi Team</p>
+
+
+        </div>
+
+
+            <!-- Three columns -->
+        <div class="center">
+
+
+
+
+        </div>
+
+
+
+
+
+    </div>
+
+
+
+
+
+    {% endblock %}
+
+</body>

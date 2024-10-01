@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    {% block head%}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href='https://fonts.googleapis.com/css?family=Golos Text' rel='stylesheet'>
+
+    <link rel="shortcut icon" type="image/x-icon"
+          href="{{ url_for('fruutty_token.static', filename='img/fruutty_icons/android_chrome_192x192.png') }}" >
+
+
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('fruutty_token.static', filename='style/fruuty.css') }}" >
+
+
+     <link rel="stylesheet" type="text/css"
+          href="{{ url_for('fruutty_token.static', filename='style/generator.css') }}" >
+
+      <link rel="stylesheet" type="text/css"
+          href="{{ url_for('fruutty_token.static', filename='style/scanner.css') }}" >
+
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('fruutty_token.static', filename='style/scanner_results.css') }}" >
+
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('fruutty_token.static', filename='style/scanner_modal.css') }}" >
+
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('fruutty_token.static', filename='style/fruuty.css') }}" >
+
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('fruutty_token.static', filename='style/index.css') }}" >
+
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('fruutty_token.static', filename='style/lyric_modal.css') }}" >
+
+
+
+    <link rel="stylesheet" href="hw1.css">
+
+
+    <script src="{{ url_for('fruutty_token.static', filename='js/fruuty.js') }}"
+    > </script>
+
+
+    <script src="{{ url_for('fruutty_token.static', filename='js/scanner.js') }}"
+    > </script>
+
+    <script src="{{ url_for('fruutty_token.static', filename='js/scanner_modal.js') }}"
+    > </script>
+
+    <script src="{{ url_for('fruutty_token.static', filename='js/fruuty.js') }}"
+    > </script>
+
+    <script src="{{ url_for('fruutty_token.static', filename='js/generator.js') }}"
+    > </script>
+
+     <script src="{{ url_for('fruutty_token.static', filename='js/lyric_modal.js') }}"
+    > </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    <title> {% block title %}  {% endblock  %} </title>
+
+    {% endblock %}
+
+</head>
+
+<body>
+
+
+
+
+<div style="width: 20%; position:absolute; top:0; right:0; padding:1%; margin: 10px;">
+    <button onclick="DropdownFunction()" class="dropbtn"> go to </button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href=" {{ url_for('fruutty_token.my_tokens') }} "> my tokens </a>
+      <a href=" {{ url_for('fruutty_token.received_tokens') }} "> revieved </a>
+      <a href=" {{ url_for('fruutty_token.sent_tokens') }} "> sent tokens </a>
+    <a href="{{ url_for('logout.logout') }} "> logout </a>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    <div id="mySidenav" class="sidenav">
+
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+        <a href="{{  url_for('fruutty_token.scanner')  }}"> <button style="background-color:deeppink;"  > <img class="sticky" src="{{url_for('fruutty_token.static', filename='img/button_icons/fruutty_scan_icon.png')}}"
+                                                                                                                                      align="middle"  alt="scan icon" style="width:50%;" /> scan </button>   </a>
+
+
+        <a href="{{  url_for('fruutty_token.generate')  }}"> <button style="background-color:deeppink;"  > <img class="sticky" src="{{url_for('fruutty_token.static', filename='img/button_icons/fruutty_generate_icon.png')}}"
+                                                                                                                                      align="middle"  alt="token icon" style="width:50%;" /> token </button>   </a>
+
+        <a href="{{  url_for('fruutty_token.send_token')  }}"  > <button style="background-color:deeppink;"  > <img class="sticky" src="{{url_for('fruutty_token.static', filename='img/button_icons/fruutty_send_icon.png')}}"
+                                                                                                                                      align="middle"  alt="send icon" style="width:50%;" /> send </button>  </a>
+
+        <a href="{{  url_for('fruutty_token.fruuty_market')  }}" > <button style="background-color:deeppink;"  > <img class="sticky" src="{{url_for('fruutty_token.static', filename='img/button_icons/fruutt_market_icon.png')}}"
+                                                                                                                                              align="middle"  alt="market icon" style="width:50%;" /> market </button> </a>
+
+</div>
+
+<div id="main">
+
+  <span style="font-size:30px;cursor:pointer; color: black;" onclick="openNav()">&#9776; fruutty </span>
+</div>
+
+    {% block content %}
+
+    {% endblock %}
+
+
+
+</body>
+
+</html>

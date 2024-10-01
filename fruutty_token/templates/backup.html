@@ -1,0 +1,65 @@
+{% extends 'base_fruuty.html' %}
+
+{% block title %}
+    bacckup
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+
+
+            <div>
+
+
+            </div>
+            <div >
+
+                <h1> BACKUP </h1>
+
+                <div class="generate_token_container">
+
+                  <h1> Backup </h1> <br>
+                  <p> data has benn backedup </p>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

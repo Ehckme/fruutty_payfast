@@ -1,0 +1,65 @@
+{% extends 'base_fruuty.html' %}
+
+{% block title %}
+    start app
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+
+
+            <div>
+
+
+            </div>
+            <div >
+
+                <h1> START APP </h1>
+
+                <div class="generate_token_container">
+
+                  <h1> App Started Successfully </h1> <br>
+                  <p> You May Login </p>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

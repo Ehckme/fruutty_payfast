@@ -1,0 +1,88 @@
+.generate_token {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #FF1493;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.generate_token_container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 10px;
+  color:black;
+}
+
+@media only screen and (min-width: 480px) {
+    /* STYLES HERE */
+   .generate_token_container {
+   text-align: center;
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+/* Responsive columns - one column layout (vertical) on small screens */
+@media screen and (max-width: 600px) {
+  .generate_token_container {
+  text-align: center;
+    margin: auto;
+    width: 85%;
+    padding: 10px;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+
+
+
+
+.tablink {
+  background-color: #555;
+  color: white;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 17px;
+  width: 25%;
+}
+
+.tablink:hover {
+  background-color: #777;
+}
+
+/* Style the tab content */
+.tabcontent {
+  color: white;
+  display: none;
+  padding: 50px;
+  text-align: center;
+}
+
+#London {background-color:#FF1493;}
+#Paris {background-color:#FF1493;}
+#Tokyo {background-color:blue;}
+#Oslo {background-color:orange;}

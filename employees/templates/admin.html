@@ -1,0 +1,130 @@
+{% extends 'base_employees.html' %}
+
+{% block title %}
+    admin
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+
+
+
+
+                <h1> Admin </h1>
+                <div class="generate_token_container">
+                number of users {{ number_of_users }}
+
+                </div >
+
+                <div class="generate_token_container">
+                    <h1> Trading Value Of Token </h1>
+                   {{ trading_token_value }}
+
+                </div>
+
+                <div class="generate_token_container">
+                    <h4> available tokens  </h4>
+                   {{ available_tokens }}
+
+                </div>
+                <div class="generate_token_container">
+                    <h4> sold tokens  </h4>
+                   {{ sold_tokens }}
+
+                </div>
+
+                <div class="generate_token_container">
+                    <a href="{{  url_for('employees.admin_id',
+                    id='{}'.format(id),
+                    email='{}'.format(email),
+                    role='{}'.format(role)
+
+                    )  }}"> Request for token </a>
+                    <br>
+                </div>
+                <div class="generate_token_container">
+                    <a href="{{  url_for('fruutty_token.send_token'
+
+                    )  }}"> Send tokens </a>
+                    <br>
+                </div>
+                <div class="generate_token_container">
+                    <a href="{{  url_for('employees.applicants',
+                    id='{}'.format(id),
+                    email='{}'.format(email),
+                    role='{}'.format(role)
+
+                    )  }}"> Applicants </a>
+                    <br>
+                </div>
+                <div class="generate_token_container">
+                    <a href="{{  url_for('employees.applications',  )  }}"> Applications </a>
+                    <br>
+                </div>
+
+    <thead>
+        <tr>
+            <th> id </th>
+            <th> username </th>
+            <th> email </th>
+            <th> role </th>
+            <th> tokens </th>
+            <th> country </th>
+            <th> last login </th>
+        </tr>
+
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td> {{ user.id }} </td>
+            <td> {{ user.name }} </td>
+            <td> {{ user.email }} </td>
+            <td> {{ user.role }} </td>
+            <td> {{ user.fruutty_token }} </td>
+            <td> {{ user.country }} </td>
+            <td> {{ user.lastlogin }} </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

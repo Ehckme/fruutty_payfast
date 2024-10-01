@@ -1,0 +1,102 @@
+{% extends 'base_employees.html' %}
+
+{% block title %}
+    sales
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+
+
+            <div>
+
+
+            </div>
+            <div >
+
+                <h1> Sales </h1>
+
+                <div class="generate_token_container">
+                <a href="{{  url_for('music_upload',
+                    id='{}'.format(id),
+                    email='{}'.format(email),
+                    role='{}'.format(role)
+
+                )  }}"> Upload music </a>
+
+
+                </div>
+                <div class="generate_token_container">
+                <a href="{{  url_for('food_upload',
+                    id='{}'.format(id),
+                    email='{}'.format(email),
+                    role='{}'.format(role)
+
+                )  }}"> Upload food </a>
+
+
+                </div>
+                <div class="generate_token_container">
+                <a href="{{  url_for('fashion_upload',
+                    id='{}'.format(id),
+                    email='{}'.format(email),
+                    role='{}'.format(role)
+
+
+                )  }}"> Upload fashion </a>
+
+
+                </div>
+                <div class="generate_token_container">
+                <a href="{{  url_for('smart_tech_upload',
+                    id='{}'.format(id),
+                    email='{}'.format(email),
+                    role='{}'.format(role)
+
+                )  }}"> Upload Tech </a>
+
+                </div>
+                <div class="generate_token_container">
+                <a href="{{  url_for('drive_upload',
+                    id='{}'.format(id),
+                    email='{}'.format(email),
+                    role='{}'.format(role)
+
+
+                )  }}"> Upload Drive </a>
+
+
+                </div>
+
+
+            </div>
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

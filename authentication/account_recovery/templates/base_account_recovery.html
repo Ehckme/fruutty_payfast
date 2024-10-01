@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+    <link rel="sshortcut icon"
+          href="{{ url_for('login.static', filename='img/logo/marxzi_logo.png') }}" >
+
+
+    <link href='https://fonts.googleapis.com/css?family=Golos Text' rel='stylesheet'>
+
+   <link rel="stylesheet" type="text/css"
+          href="{{ url_for('login.static', filename='style/popup_button/popup_button.css') }}" >
+
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('login.static', filename='style/body_wrapper/body_wrapper.css') }}" >
+
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('login.static', filename='style/login_form/login_form.css') }}" >
+
+
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('login.static', filename='style/alerts/alert.css') }}" >
+
+
+    <script src="{{ url_for('login.static', filename='js/popup_button/popup_button.js') }}"
+    > </script>
+
+    <script src="{{ url_for('login.static', filename='js/alerts/alert.js') }}"
+    > </script>
+
+
+    <title> {% block title %}  {% endblock  %} </title>
+
+
+
+</head>
+
+<body>
+
+    {% block content %}
+
+    {% endblock %}
+
+
+</body>
+
+</html>

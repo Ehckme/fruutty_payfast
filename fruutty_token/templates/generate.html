@@ -1,0 +1,110 @@
+{% extends 'base_fruuty.html' %}
+
+{% block title %}
+    generate token
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+
+
+
+
+    <div id="London" class="tabcontent">
+  <h2> Money </h2>
+        <div>
+
+
+            </div>
+            <div >
+
+                <h3> Fruutty Token </h3>
+
+                <div class="generate_token_container">
+                      <form action="{{  url_for('fruutty_token.generate')  }}" method="post" style="width:100%">
+
+                        <label for="fqrcode_token"> fruuty token </label>
+                        <input type="text" class="generate_token" id="fruuty_token" name="fruuty_token"
+                               placeholder="enter fuuty token amount .." required>
+
+                        <button id="create_token"  type="submit" style="background-color:deeppink;" > create token </button>
+
+
+                            <div >
+
+                                <img id="picture" src="data:image/png;base64,{{ token }}" style="width:60%;">
+
+
+                            </div>
+
+                      </form>
+                </div>
+
+                <script>
+                        setInputFilter(document.getElementById("fruuty_token"), function(value) {
+                          return /^-?\d*[.,]?\d*$/.test(value);
+                        }, "Must be a floating (real) number");
+                </script>
+
+            </div>
+
+</div>
+
+<div id="Paris" class="tabcontent">
+  <h1>Paris</h1>
+
+</div>
+
+
+
+<button class="tablink" style="background-color:deeppink;" onclick="openCity('London', this, 'deeppink')" id="defaultOpen"> money </button>
+    <a href=" {{ url_for('fruutty_token.product_token' )  }} "> <button class="tablink" style="background-color:deeppink;" > product </button> </a>
+
+ <script>
+function openCity(cityName,elmnt,color) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.backgroundColor = "";
+  }
+  document.getElementById(cityName).style.display = "block";
+  elmnt.style.backgroundColor = color;
+
+}
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

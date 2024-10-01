@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+     <!-- Three columns -->
+     jwt reset link (you put this code only this one back)
+        <div class="center">
+
+            <a href="{{ url_for('reset_password.reset_password') }}"> <input
+                    id="success-btn" type="submit" value=" Go to reset password"> </a>
+
+
+        </div>
+
+
+
+
+
+
+     <form method="post" action=" {{ url_for('jwt_reset_password.jwt_reset_password') }} ">
+
+                <input type="submit" value="Go to reset password b ">
+
+            </form>
+
+</body>
+</html>
+
+ email = JWT()
+        try:
+            try:
+                user_token = email.decode_jwt_token(token)
+                user_email_in_db = Users.query.filter_by(email=user_token['email']).first()
+                if user_email_in_db:
+                    user_email_in_db.confirmed = True
+                    user_email_in_db.confirmed_at = func.now()
+                    db.session.commit()
+                    flash('request to reset password confirmed')
+                    print('request to reset password confirmed')
+                    return render_template('jwt_reset.html')
+            except jwt.ExpiredSignatureError:
+                return redirect(url_for('resendReset_token.resendReset_token'))
+        except jwt.DecodeError:
+            flash('Invalid token')
+            return redirect(url_for('invalidReset_token.invalidReset_token'))
+
+
+def jwt_reset(token):
+
+        email = JWT()
+        try:
+            try:
+                user_token = email.decode_jwt_token(token)
+                user_email_in_db = Users.query.filter_by(email=user_token['email']).first()
+                if user_email_in_db:
+                    user_email_in_db.confirmed = True
+                    user_email_in_db.confirmed_at = func.now()
+                    db.session.commit()
+                    flash('request to reset password confirmed')
+                    print('request to reset password confirmed')
+                    return render_template('jwt_reset.html')
+            except jwt.ExpiredSignatureError:
+                return redirect(url_for('resendReset_token.resendReset_token'))
+        except jwt.DecodeError:
+            flash('Invalid token')
+            return redirect(url_for('invalidReset_token.invalidReset_token'))
+
+    # Get user's new password, and confirm password from the user input from the form
+    new_password = str(request.form.get('new_password', False))
+    confirm_new_password = str(request.form.get('confirm_new_password', False))
+
+    if request.method == 'POST':
+
+        if new_password == confirm_new_password:
+            hash_password = Register()
+            hashed_password = hash_password.userPassword(str(confirm_new_password))
+
+            user_reset_pw = Users.query.filter_by(email=user_email_in_db).first()
+            user_reset_pw.password = hashed_password
+            db.session.commit()
+            flash('Password changed successfully. ')
+            return redirect(url_for('login.login', email=user_email_in_db))
+        else:
+            print('Password do not match. Enter matching passwords')
+            flash('Password do not match. Enter matching passwords')
+
+        # return redirect(url_for('jwt_reset_password.jwt_reset_password', user_email=user_email_in_db))
+
+    return render_template('jwt_reset.html')

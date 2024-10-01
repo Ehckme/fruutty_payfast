@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    {% block head%}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href='https://fonts.googleapis.com/css?family=Golos Text' rel='stylesheet'>
+
+
+     <link rel="stylesheet" type="text/css"
+          href="{{ url_for('fruutty_token.static', filename='style/generator.css') }}" >
+
+    <script src="{{ url_for('fruutty_token.static', filename='js/generator.js') }}"
+    > </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    <title> {% block title %}  {% endblock  %} </title>
+
+    {% endblock %}
+
+</head>
+
+<body>
+
+    {% block content %}
+
+    {% endblock %}
+
+</body>
+
+</html>

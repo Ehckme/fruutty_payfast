@@ -1,0 +1,111 @@
+{% extends 'base_employees.html' %}
+
+{% block title %}
+    applications
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+
+
+            <div>
+
+
+            </div>
+            <div >
+
+                <h1> Application </h1>
+
+                <div class="generate_token_container">
+                      <form action="{{  url_for('employees.applications')  }}" method="post" style="width:100%">
+
+                        <label for="fname"> name </label>
+                        <input type="text" class="generate_token" id="name" name="name"
+                               placeholder="enter name .." required>
+
+                        <input type="text" class="generate_token" id="surname" name="surname"
+                               placeholder="enter surname .." required>
+
+                        <input type="text" class="generate_token" id="email" name="email"
+                               placeholder="enter email .." required>
+
+                        <input type="text" class="generate_token" id="cell" name="cell"
+                               placeholder="enter cell .." required>
+
+                          <br>
+
+
+                        <input type="text" class="generate_token" id="street_name" name="street_name"
+                               placeholder="enter street name .." required>
+
+                        <input type="text" class="generate_token" id="house_number" name="house_number"
+                               placeholder="enter house number .." required>
+
+                        <input type="text" class="generate_token" id="area_name" name="area_name"
+                               placeholder="enter area name .." required>
+
+                        <input type="text" class="generate_token" id="postal_code" name="postal_code"
+                               placeholder="enter postal code .." required>
+
+                       <input type="text" class="generate_token" id="city" name="city"
+                               placeholder="enter city .." required>
+
+                       <input type="text" class="generate_token" id="province" name="province"
+                               placeholder="enter province .." required>
+
+                      <input type="text" class="generate_token" id="country" name="country"
+                               placeholder="enter country .." required>
+
+
+                        <button id="create_token"  class="generate_token"  type="submit" > apply </button>
+
+
+                       
+
+                      </form>
+                </div>
+
+                <script>
+                        setInputFilter(document.getElementById("fruuty_token"), function(value) {
+                          return /^-?\d*[.,]?\d*$/.test(value);
+                        }, "Must be a floating (real) number");
+                </script>
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

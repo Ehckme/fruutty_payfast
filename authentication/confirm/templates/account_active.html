@@ -1,0 +1,78 @@
+{% extends 'base_login.html' %}
+
+{% block title %}
+    account active
+{% endblock  %}
+<body>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert success">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}
+
+
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+        <br> <br> <br>
+        <br> <br> <br>
+        <div class="row center" >
+             <p>Dear User,</p>
+
+            <h1> Your account is active and confirmed </h1>
+
+
+        <p>    </p>
+        <p> Click on the 'Go to login' button to login to your account.</p>
+         <form method="post" action="{{ url_for('account_active.account_active') }}" >
+
+            <p>Sincerely,</p>
+            <p>The Marxzi Team</p>
+
+
+            <!-- Three columns -->
+        <div class="center">
+
+
+
+                    <a href="{{ url_for('login.login') }}">
+                        <input  id="success-btn" type="submit" value=" Go to login "> </a>
+
+
+
+
+        </div>
+
+      </form>
+
+        </div>
+
+
+    </div>
+
+
+
+    {% endblock %}
+
+</body>

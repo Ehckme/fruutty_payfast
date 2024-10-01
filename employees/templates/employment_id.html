@@ -1,0 +1,67 @@
+{% extends 'base_employees.html' %}
+
+{% block title %}
+    employee id
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+
+
+            <div>
+
+
+            </div>
+            <div >
+
+                <h1> Employee id </h1>
+
+                <div class="generate_token_container">
+                    <p> enter employee id </p>
+                      <form action="{{  url_for('employees.employment_id',
+                      email='{}'.format(email),
+
+                      )  }}" method="post" style="width:100%">
+                        
+                        <input type="text" class="generate_token" id="employee_id" name="employee_id"
+                               placeholder="enter employee id .." required>
+
+
+                        <button id="create_token"  type="submit" > send </button>
+
+
+                      </form>
+                </div>
+
+
+            </div>
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

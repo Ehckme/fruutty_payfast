@@ -1,0 +1,80 @@
+{% extends 'base_sign_up.html' %}
+
+{% block title %}
+sign up
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert success">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+
+    <div style="text-align:center">
+
+    </div>
+
+
+
+
+
+    <div class="divider">
+        <form action="{{ url_for('sign_up.sign_up') }}" method="post">
+
+            <label for="username"> Username </label>
+            <input type="text" id="id_username" name="username"
+                   placeholder="enter username.." required>
+
+            <label for="email"> Email </label>
+            <input type="email" id="id_email" name="email"
+                   placeholder="enter email.." required>
+
+            <label for="lname"> password </label>
+            <input type="password" id="id_password" name="password"
+                   placeholder="enter password.." required>
+
+
+            <input type="submit" value="sign up">
+        </form>
+    </div>
+
+    <div style="margin:auto;font-size:13px;">
+
+    <form method="get" action="{{ url_for('account_recovery.account_recovery') }}" >
+
+                    <p> Forgot your password?
+                        <a href="{{ url_for('account_recovery.account_recovery') }}">
+                            Reset here  </a> </p>
+
+                </form>
+        <p style="font-size: 9px;">
+
+
+        By clicking Sign Up, you agree to our
+            <a href=" {{ url_for('terms_and_conditions.terms_and_conditions') }} " target="_blank"> Terms </a>,
+            <a href=" {{ url_for('terms_and_conditions.privacy_policy') }} " target="_blank"> Privacy Policy </a> and
+            <a href=" {{ url_for('terms_and_conditions.cookie_policy') }} " target="_blank"> Cookies Policy </a>.
+        You may receive email and or sms notifications from us and can opt out at any time.
+            <a href=" {{ url_for('terms_and_conditions.about') }} "> About </a>
+        </p>
+
+
+        </div>
+
+
+
+
+</div>
+
+
+{% endblock %}

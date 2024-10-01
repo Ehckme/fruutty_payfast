@@ -1,0 +1,101 @@
+* { box-sizing: border-box; }
+
+body { font-family: sans-serif; }
+
+h3 {
+	margin-bottom: 10%;
+}
+
+.object {
+	position: relative;
+	width: 400px;
+	height: 600px;
+	margin: 40px auto;
+	perspective: 1000px;
+}
+
+.carousel {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	transform: translateZ(-288px);
+	transform-style: preserve-3d;
+	transition: transform 1s;
+}
+
+.cell {
+	position: absolute;
+	width: 380px;
+	height: 580px;
+	left: 10px;
+	top: 10px;
+	border: 2px solid black;
+	color: white;
+	text-align: center;
+}
+
+.cell:nth-child(1) {
+	background: #0c0c0ccc;
+	transform: rotateY(0deg) translateZ(275px);
+}
+.cell:nth-child(2) {
+	background: #ffffffcc;
+	transform: rotateY(72deg) translateZ(275px);
+}
+.cell:nth-child(3) {
+	background: #46085acc;
+	transform: rotateY(144deg) translateZ(275px);
+}
+.cell:nth-child(4) {
+	background: #bf0e12cc;
+	transform: rotateY(216deg) translateZ(275px);
+}
+.cell:nth-child(5) {
+	background: #0b2c67cc;
+	transform: rotateY(288deg) translateZ(275px);
+}
+
+.button-group {
+	text-align: center;
+}
+
+.previous-button,
+.next-button {
+	background-color: #4CAF50;
+}
+
+.previous-button:hover,
+.next-button:hover {
+	background-color: #2edbdc;
+	color: white;
+	font-weight: 700;
+}
+
+.previous-button,
+.next-button {
+	border: none;
+	outline:none;  /*I think this style no one lese at the class will use*/
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	cursor: pointer;
+	transition: all 0.1s ease-in-out;
+	background-color:#FF1493;
+}
+
+#image {
+	width:100%;
+	height: 72%;
+}
+
+.previous-button:after {
+    content: ' \22B2';
+}
+
+.next-button:after {
+    content: ' \22B3';
+}
+

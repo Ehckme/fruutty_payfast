@@ -1,0 +1,120 @@
+{% extends 'base_fruuty.html' %}
+
+    {% block title %}
+        fruuty scanner
+    {% endblock  %}
+
+
+
+{% block content %}
+
+
+<div class="body html">
+
+
+
+
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+        <p id="para"> </p>
+
+        	<div class="qr_code_container">
+
+		            <div class="section">
+
+			            <div id="my-qr-reader">m
+			            </div>
+
+                         <button id="btn_approve_token" onclick="document.getElementById('id01').style.display='block'"
+                                 style="width:auto;background-color:deeppink;"> Approve Token </button>
+
+		            </div>
+
+
+
+            </div>
+
+
+	<script
+		src="https://unpkg.com/html5-qrcode">
+	</script>
+
+
+    <!-- ###################### SCANNER MODAL RESULTS ######################## -->
+
+
+
+
+<div id="id01" class="modal">
+
+  <form class="modal-content animate" method="post" action="{{  url_for('fruutty_token.scanner')  }}">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+      <img src="img_avatar2.png" alt="Avatar" class="avatar">
+
+    </div>
+
+    <div class="container">
+     <div class="token_receipt">
+             <p id="store_name" > </p>
+             <p id="user_id" > </p>
+            <p id="token_id" > </p>
+            <p id="token_type" > </p>
+            <p id="product_name" > </p>
+            <p id="city" > </p>
+            <p id="user_country" > </p>
+            <p id="trade_country" > </p>
+            <p id="date" > </p>
+            <p id="processor" > </p>
+            <p id="token_amount" > </p>
+
+
+        </div>
+
+                    <div name="tokendata" id="tokendata" class="results" style="display:none;"> </div>
+                    <input type="hidden" id="token_data" name="token_results" required>
+                    <input type="hidden" id="token_test" name="token_results">
+                    <input type="hidden" id="token_check" name="token_results">
+                    <button type="submit" style="background-color:deeppink;"> Approve </button>
+
+
+    </div>
+
+
+    <div class="container" style="background-color:#f1f1f1" >
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+
+    </div>
+  </form>
+
+</div>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

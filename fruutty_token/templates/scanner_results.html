@@ -1,0 +1,67 @@
+{% extends 'base_fruuty.html' %}
+
+
+
+
+
+
+    {% block title %}
+        scanner results
+    {% endblock  %}
+
+
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+        <h1> success </h1>
+
+
+        <div class="token_receipt">
+            <p> Stall or Shop Name {{ store_name }} </p>
+           <p> Amount {{ token_amount }} </p>
+            <p> User {{ user }} </p>
+            <p> token type {{ token_type }} </p>
+            <p> product name {{ product_name }} </p>
+            <p> City {{ city }} </p>
+            <p> User Country {{ user_countryr }} </p>
+            <p> Trade Country {{ trade_country }} </p>
+            <p> Date {{ date }} </p>
+            <p> Processor {{ processor }} </p>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base_fruuty.html' %}
+
+    {% block title %}
+        received tokens
+    {% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+
+    <div id="London" class="tabcontent">
+  <h1>London</h1>
+  <p>London is the capital city of England.</p>
+</div>
+
+<div id="Paris" class="tabcontent">
+
+    <h1> Received tokens  </h1>
+
+            <div class="generate_token_container">
+
+                {{ user_received_tokens_list }}
+
+                {{ received_token_notification_list }}
+
+            </div>
+
+</div>
+
+
+
+<a href=" {{ url_for('fruutty_token.sent_tokens') }}  ">
+    <button class="tablink" onclick="openCity('London', this, 'deeppink')" > sent tokens </button> </a>
+<button class="tablink" onclick="openCity('Paris', this, 'deeppink')"  id="defaultOpen" > received tokens </button>
+    
+         <!-- Full-width columns: (hidden by default) -->
+
+<script>
+function openCity(cityName,elmnt,color) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.backgroundColor = "";
+  }
+  document.getElementById(cityName).style.display = "block";
+  elmnt.style.backgroundColor = color;
+
+}
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+
+
+    
+</div>
+
+{% endblock %}

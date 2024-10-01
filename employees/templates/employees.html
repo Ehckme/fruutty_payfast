@@ -1,0 +1,74 @@
+{% extends 'base_employees.html' %}
+
+{% block title %}
+    employees
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+
+
+            <div>
+
+
+            </div>
+            <div >
+
+                <h1> Employees </h1>
+
+
+
+
+                <div class="generate_token_container">
+                    <div class="">
+
+                    <p> Go to </p>
+
+
+                </div>
+
+                    <a href="{{ url_for('employees.confirm_emp_id',
+                    id='{}'.format(id),
+                    email='{}'.format(email),
+                    role='{}'.format(role)
+
+
+                    ) }}">
+                            SALES  </a> <br>
+
+                        <a href=""> HR </a>
+
+                </div>
+
+
+            </div>
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends 'base_fruuty.html' %}
+
+{% block title %}
+    cookie policy
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+ <div class="generate_token_container" >
+     <h2 style="background-color:none;color:deeppink;">
+        Fruutty Cookie Policy
+
+
+     </h2>
+
+
+<p>
+    This Cookie Policy explains how Fruutty ("we," "us," or "our")
+    uses cookies and similar technologies on our web app, application, or app,
+    Fruutty. By using the app, you consent to the use of cookies in accordance with this policy.
+
+
+</p>
+<p>
+    1. What Are Cookies?
+Cookies are small text files that are placed on your device by a web
+    server when you visit a website or use an application. Cookies help
+    the application recognize your device and store certain information
+    about your preferences or past activities.
+
+
+</p>
+<p>
+2. Types of Cookies We Use
+We use the following types of cookies in Fruutty:
+
+    a. Essential Cookies
+These cookies are necessary for the app to function properly.
+    They enable you to navigate the app and use its features.
+    Without these cookies, certain services may not be available.
+
+b. Performance Cookies
+These cookies collect information about how you use the app,
+    such as which pages you visit most often. This information helps
+    us improve the app's performance and user experience.
+
+c. Functional Cookies
+Functional cookies allow the app to remember choices you make
+    (such as your username or language preference) and provide
+    enhanced, more personalized features.
+
+d. Analytics Cookies
+We may use analytics cookies to collect information about how
+    users interact with the app. This data helps us analyze user
+    behavior and improve our services.
+
+
+</p>
+<p>
+    3. How You Can Manage Cookies
+You can manage cookies through your device settings. Most devices
+    allow you to refuse cookies or alert you when cookies are being sent.
+    However, please note that if you disable cookies, some features of the
+    app may not function properly.
+
+    a. Mobile Device Settings
+For mobile devices, you can usually manage cookies in your device's settings. Please refer to your device's user manual or help section for specific instructions.
+
+b. Third-Party Cookies
+We may allow third parties to place cookies on your device to provide services or analytics. These third parties have their own privacy policies and practices, and we encourage you to review them.
+
+
+
+</p>
+<p>
+    4. Changes to This Cookie Policy
+We may update this Cookie Policy from time to time. We will notify you of any
+    changes by posting the new policy on this page. Your continued use of the app after any
+    modifications constitutes your acceptance of the updated policy.
+
+
+</p>
+<p>
+    5. Contact Us
+If you have any questions about this Cookie Policy or our use of cookies,
+    please contact us at prescribed and provided credential on the site.
+
+
+</p>
+<p>
+    By using the Fruutty app, you agree to the use of cookies as described i
+    n this Cookie Policy. Thank you for being a part of the Fruutty community!
+
+
+
+</p>
+<p>
+
+</p>
+<p>
+
+</p>
+<p>
+
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+ </div>
+
+
+
+</div>
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

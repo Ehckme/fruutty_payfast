@@ -1,0 +1,27 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+
+
+}
+
+.center {
+          text-align: center;
+          margin: auto;
+          width: 60%;
+          border: none;
+          padding: 10px;
+          border-radius: 5px;
+          background-color: #f2f2f2;
+
+
+        }
+
+@media screen and (max-width: 600px) {
+  .center {
+    width: 90%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}

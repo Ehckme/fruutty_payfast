@@ -1,0 +1,46 @@
+{% extends 'base_fruuty.html' %}
+
+    {% block title %}
+        fruuty
+    {% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+         <!-- Full-width columns: (hidden by default) -->
+        <h1> Home </h1>
+
+            <div class="generate_token_container">
+
+                {% include 'generate.html' %}
+
+            </div>
+
+        <div class="generate_token_container">
+
+            <a href="{{ url_for('fruutty_token.scanner') }}">
+                <input id="create_token"  type="submit" value="scan token ">       </a>
+
+            <a href="{{ url_for('fruutty_token.fruuty_market') }}">
+                <input id="create_token"  type="submit" value="market ">       </a>
+
+
+            </div>
+
+</div>
+
+{% endblock %}

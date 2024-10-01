@@ -1,0 +1,96 @@
+{% extends 'base_login.html' %}
+
+{% block title %}
+    login
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+    <div style="text-align:center">
+          <div class="logo">
+
+                </div>
+          <!-- <p>Click on the boxe to start login:</p> -->
+    </div>
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+
+
+
+                    <div class="divider" >
+
+                      <form id="login_form" action="{{ url_for('login.login') }}" method="post">
+
+                        <label for="email"> Email</label>
+                        <input type="email" id="id_email" name="email"
+                               placeholder="enter email.." required>
+
+                       <label for="password"> Password </label>
+                        <input type="password" id="id_password" name="password"
+                               placeholder="enter password.." required>
+
+
+
+                          <button class="g-recaptcha generate_token_container"
+                            data-sitekey="{{google_recaptcha_site_key}}"
+                            data-callback='onSubmit'
+                            style="width:100%; background-color: deeppink;"
+                            data-action='submit'>
+                          login
+                        </button>
+
+                      </form>
+                    </div>
+
+                <div style="margin:auto;font-size:13px;">
+
+
+                <form method="get" action="{{ url_for('account_recovery.account_recovery') }}" >
+
+                    <p> Forgot your password?
+                        <a href="{{ url_for('account_recovery.account_recovery') }}">
+                            Reset here  </a> </p>
+
+                </form>
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

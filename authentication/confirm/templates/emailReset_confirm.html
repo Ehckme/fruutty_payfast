@@ -1,0 +1,84 @@
+{% extends 'base_login.html' %}
+
+{% block title %}
+    confirm reset email
+{% endblock  %}
+<body>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert success">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}
+
+
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+        <br> <br> <br>
+        <br> <br> <br>
+        <div class="row center" >
+             <p>Dear User,</p>
+
+            <h1> You have entered an invalid email </h1>
+
+
+        <p>    </p>
+        <p> Enter email you signed up with and Click on the 'Resend token' button to recieve another reset token.</p>
+         <form method="post" action="{{ url_for('emailReset_confirm.emailReset_confirm') }}" >
+            <label for="email"> Email </label>
+                <input type="email" id="id_email" name="email"
+                       placeholder="enter email.." required>
+            <p>Sincerely,</p>
+            <p>The fruutty Team</p>
+
+            <p> Don't have an account?
+                <a href="{{ url_for('sign_up.sign_up') }}">
+                                Sign up  </a></p>
+
+
+
+
+
+            <!-- Three columns -->
+        <div class="center">
+
+
+
+                    <a href="{{ url_for('confirm.otp_confirm') }}"> <input  id="success-btn" type="submit" value=" Resend token "> </a>
+
+
+
+
+        </div>
+
+      </form>
+
+        </div>
+
+
+    </div>
+
+    {% endblock %}
+
+</body>

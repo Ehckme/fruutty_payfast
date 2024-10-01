@@ -1,0 +1,172 @@
+{% extends 'base_fruuty_player.html' %}
+
+
+
+
+
+
+    {% block title %}
+        fruuty player
+    {% endblock  %}
+
+
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+<style>
+
+    .generate_token_container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+button {
+
+
+
+    background-color: deeppink;
+
+}
+</style>
+
+ <style>
+.play:after {
+    content: ' \25B7';
+}
+</style>
+
+<style>
+
+    #pausebutton {
+  font-size: 1.5em;
+
+
+
+  }
+
+   #playbutton {
+
+  font-size: 1.5em;
+
+
+  }
+
+  #player_con {
+  margin:auto;
+  background-color:deeppink;
+  border-radius: 50%;
+  width:12%;
+
+  }
+
+
+</style>
+
+         <!-- Full-width columns: (hidden by default) -->
+        <h1> fruutty player </h1>
+
+
+            <div >
+
+                <audio id="myAudio">
+
+                      <source src="{{ url_for('fruutty_token.static', filename='img/music/{}'.format(audio_file_name_url)  ) }} " type="audio/ogg">
+                      <source src="{{ url_for('fruutty_token.static', filename='img/music/{}'.format(audio_file_name_url)  ) }} " type="audio/mpeg">
+                      Your browser does not support the audio element.
+                </audio>
+
+
+
+                <div id="player_con">
+                    <a id="pausebutton"  onmousedown="pauseFunction()" onmouseup="pauseyFunction()" style="display:none;"   onClick="togglePlay()"> <h2 class="pause"> || </h2>   </a>
+
+                    <a id="playbutton" onmouseup="playFunction()"  onClick="togglePlay()"> <h2 class="play">  </h2>  </a>
+
+                </div>
+
+
+
+                <script>
+                    var x = document.getElementById("myAudio");
+
+                                        function togglePlay() {
+                      return myAudio.paused ? myAudio.play() : myAudio.pause();
+                    };
+                </script>
+                <script>
+                    function playFunction() {
+                      var x = document.getElementById("playbutton");
+                      var y = document.getElementById("pausebutton");
+                      if (x.style.display === "none") {
+                        x.style.display = "block";
+                        y.style.display = "none";
+
+
+
+                      } else {
+                        x.style.display = "none";
+                         y.style.display = "block";
+
+
+                      }
+                    }
+
+                    function pauseyFunction() {
+                      var y = document.getElementById("pausebutton");
+                      var x = document.getElementById("playbutton");
+
+                      x.style.display = "block";
+                      y.style.display = "none";
+
+                    }
+
+                    function showplayFunction() {
+                      var p1 = document.getElementById("playbutton");
+                      var p2 = document.getElementById("pausebutton");
+
+                      p2.style.display = "none";
+                      p1.style.display = "block";
+
+
+                    }
+                </script>
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

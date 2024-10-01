@@ -1,0 +1,148 @@
+{% extends 'base_fruuty.html' %}
+
+{% block title %}
+    music upload
+{% endblock  %}
+
+{% block content %}
+
+<div class="body html">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+            <div class="alert success">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+
+         <!-- Full-width columns: (hidden by default) -->
+
+
+
+            <div>
+
+
+            </div>
+            <div >
+
+                <h1> Upload song </h1>
+
+                <div class="generate_token_container" >
+                       <form action = "{{ url_for('music_upload',
+                       id='{}'.format(id),
+                    email='{}'.format(email),
+                    role='{}'.format(role)
+
+                       ) }}" method = "post" enctype="multipart/form-data">
+
+                            <label for="fcompany_name"> record label name  </label>
+                            <input type="text" id="record_company" name="record_company" placeholder="enter record company name" maxlength="100" required/>
+
+                            <label for="flink"> imaage link  </label>
+                            <input type="text"  id="image_link" name="image_link" placeholder="enter image link" maxlength="500" required/>
+
+                            <label for="fsong_name"> song name  </label>
+                            <input type="text"  id="song_name" name="song_name" placeholder="enter song name" maxlength="200" required/>
+
+                            <label for="fsong_link"> song link  </label>
+                            <input type="text"  id="song_link" name="song_link" placeholder="song url link " maxlength="500" required/>
+
+                            <label for="fartist_name"> artist name  </label>
+                            <input type="text"  id="artist_name" name="artist_name" placeholder="artist name" maxlength="60" required/>
+
+                            <label for="fartist_bio"> artist bio  </label>
+                            <input type="text"  id="artist_bio" name="artist_bio" placeholder="write brief artist bio" maxlength="250"/>
+
+                            <label for="flylics"> lyrics  </label>
+                            <input type="text"  id="lyrics" name="lyrics" placeholder="type lyrics" maxlength="5000" required/>
+
+                            <label for="fupload"> upload song  </label>
+                            <input id="file" type="file" name="file" />
+
+
+
+
+
+
+
+
+
+
+                           <div id="id01" class="modal">
+
+  <div class=" generate_token_container ">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+        <h2> Paid Amount </h2>
+
+    </div>
+
+    <div class="container">
+      <label for="uname"> Amount </label>
+      <input type="text" placeholder="enter amount " name="amount" required>
+
+
+
+
+          <label for="cars">Discount?:</label>
+          <select id="discount" name="discount" style="width:100%;">
+            {% for item in data %}
+              <option value="{{ item.discount }}">{{ item.discount }}</option>
+              {% endfor %}
+          </select>
+
+
+
+
+        <input type = "submit" value="Finish Upload">
+
+      <label>
+
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+                        </form>
+
+                    <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;"> upload </button>
+
+
+
+                </div>
+
+
+            </div>
+
+
+
+</div>
+
+
+
+{% endblock %}
+
