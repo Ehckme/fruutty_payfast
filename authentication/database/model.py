@@ -1,8 +1,12 @@
+
 """------------ import modules for sqlalchemy and flask-sqlaclhemy  ------------"""
 import datetime
+# from datetime import datetime
 from sqlalchemy import DateTime
 from sqlalchemy.sql import func
 from sqlalchemy import String, Integer, CHAR, Column, ForeignKey
+from sqlalchemy import Numeric, Boolean
+from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine, Table
 from typing import List
 
@@ -29,8 +33,7 @@ class Fruutty_token(db.Model, UserMixin):
     sold_tokens: Mapped[float] = mapped_column(String(30), nullable=True, server_default='0.0')
     opening_trade: Mapped[float] = mapped_column(String(30), nullable=True, server_default='0.0')
     closing_trade: Mapped[float] = mapped_column(String(30), nullable=True, server_default='0.0')
-    date: Mapped[datetime.datetime] = mapped_column(DateTime(
-        timezone=True), nullable=False, server_default=func.now())
+    date: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
 
     def __repr__(self) -> str:
         return f'Fruutty_token(id={self.id!r}, token_id={self.token_id!r}, ' \
@@ -493,3 +496,49 @@ class Sales(db.Model, UserMixin):
         return f'Sales=(id={self.id!r}, employee_id={self.employee_id!r},' \
                f'upload_section={self.upload_section!r}, company={self.company!r}' \
                f'amount={self.amount!r}, date={self.date!r}),'
+
+
+# PayFast section
+
+class PayFastUsers(db.Model, UserMixin):
+    __tablename__ = "payfast_users"
+    id = Column(Integer, primary_key=True)
+    email = Column(String(255), unique=True, nullable=False)
+    # add other fields if needed
+
+
+class TokenPurchase(db.Model, UserMixin):
+    __tablename__ = "token_purchases"
+    id = Column(Integer, primary_key=True)
+    user_email = Column(String(255), nullable=False)
+    user_id = Column(Integer, ForeignKey("payfast_users.id"), nullable=True)
+    bundle_id = Column(Integer, nullable=True)  # optional
+    amount = Column(Numeric(12, 2), nullable=False)
+    status = Column(String(30), default="pending")
+    payfast_ref = Column(String(255), nullable=True)
+    m_payment_id = Column(String(128), nullable=True, unique=True)
+    created_at = Column(
+        DateTime(timezone=True), 
+        nullable=False, 
+        default=datetime.datetime.utcnow
+    )
+
+    user = relationship("PayFastUsers")
+
+
+class QRToken(db.Model, UserMixin):
+    __tablename__ = "qr_tokens"
+    id = Column(Integer, primary_key=True)
+    purchase_id = Column(Integer, ForeignKey("token_purchases.id"), nullable=False)
+    token_code = Column(String(128), unique=True, nullable=False)
+    token_value = Column(Numeric(12, 2), nullable=False)
+    qr_path = Column(String(255), nullable=True)
+    used = Column(Boolean, default=False)
+    created_at = Column(
+        DateTime(timezone=True), 
+        nullable=False, 
+        default=datetime.datetime.utcnow
+    )
+
+    purchase = relationship("TokenPurchase")
+

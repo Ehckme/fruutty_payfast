@@ -82,7 +82,20 @@
 <body>
 
 
+<!-- Buy Tokens Button on Scanner Page -->
+<a href="{{ url_for('payfast_bp.buy_default') }}" 
+   style="display:inline-block; padding:10px 20px; border:2px solid #ff69b4; 
+          color:#ff69b4; text-decoration:none; border-radius:5px; 
+          transition: all 0.3s;">
+    Buy Tokens
+</a>
 
+<style>
+    a:hover {
+        background-color: #ff69b4;
+        color: #fff !important;
+    }
+</style>
 
 <div style="width: 20%; position:absolute; top:0; right:0; padding:1%; margin: 10px;">
     <button onclick="DropdownFunction()" class="dropbtn"> go to </button>

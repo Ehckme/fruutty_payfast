@@ -2,9 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('dashboard.static', filename='dashboard.css') }}">
 </head>
 <body>
-      <h1>  Test Case dashboard </h1>
+    <h1>Dashboard</h1>
+
+    <!-- User Token & FTVS Overview -->
+    <div class="overview">
+        <p>Current Token Balance: {{ user_tokens }}</p>
+        <p>Current FTVS Trade Value: {{ ftvs_value }}</p>
+        <!-- Include PayFast buy widget -->
+        {% include 'choose_bundle.html' %}
+    </div>
+
+    <!-- Recent Transaction -->
+    <h3>Recent Transaction</h3>
+    {% if recent_transaction %}
+    <table>
+        <tr><th>Date</th><th>Amount</th><th>Status</th></tr>
+        <tr>
+            <td>{{ recent_transaction.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ recent_transaction.amount }}</td>
+            <td>{{ recent_transaction.status }}</td>
+        </tr>
+    </table>
+    {% else %}
+    <p>No recent transactions</p>
+    {% endif %}
+
+    <!-- Notifications -->
+    <h3>Notifications</h3>
+    {% if notifications %}
+        <ul>
+        {% for note in notifications %}
+            <li>{{ note.message }} ({{ note.created_at.strftime('%Y-%m-%d %H:%M') }})</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No notifications</p>
+    {% endif %}
+
 </body>
 </html>
+

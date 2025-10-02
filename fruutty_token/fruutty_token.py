@@ -51,13 +51,44 @@ Section for aquiring and setting user location
 ##############################################
 """
 # get user location from url requests library
+"""
 url = 'http://ipinfo.io/json'
 response = get(url)
 data = json.loads(response.text)
 city = data['city']
 country = data['country']
+"""
+
+"""
+SOUTH_AFRICA = 'South Africa'
+UNITED_STATES = 'United StatesE'
+"""
+
+
+from requests import get
+
+def get_location_info():
+    """
+    Safely fetch city and country from ipinfo.io.
+    Returns a dict with 'city' and 'country', defaults to 'Unknown' if missing.
+    """
+    try:
+        response = get('http://ipinfo.io/json', timeout=5)
+        data = response.json()
+        return {
+            "city": data.get("city", "Unknown"),
+            "country": data.get("country", "Unknown"),
+        }
+    except Exception:
+        return {"city": "Unknown", "country": "Unknown"}
+
 SOUTH_AFRICA = 'South Africa'
 UNITED_STATES = 'United States'
+location = get_location_info()
+city = location["city"]
+country = location["country"]
+
+
 
 # calling the Nominatim tool
 loc = Nominatim(user_agent="GetLoc")
@@ -99,6 +130,13 @@ def fruutty():
     return render_template('fruutty.html')
 
 
+
+
+
+
+
+
+
 @fruutty_token_bp.route('/generate', methods=['GET', 'POST'])
 @login_required
 def generate():
@@ -106,13 +144,23 @@ def generate():
     if current_user.role == rep:
         flash('login to access this page')
         return render_template('index.html')
-    fruuty_toke_amount = request.form.get('fruutty_token', False)
+    fruutty_token_amount = request.form.get('fruutty_token', False)
     # print('current user', current_user.id)
     # print('current user', current_user.email)
     # print('current user', current_user.user_id)
 
     if request.method == 'POST':
         try:
+            amount = int(fruutty_token_amount)
+            if amount <= 0:
+                flash("Amount must be greater than zero.", "danger")
+                return redirect(url_for("fruutty_token.generate"))
+
+            #  Ensure user has enough balance
+            if amount > current_user.fruutty_token:
+                flash("You don’t have enough available tokens.", "danger")
+                return redirect(url_for("fruutty_token.generate"))
+
             token = Token()
             mail = current_user.email
             id = str(current_user.id)
@@ -123,7 +171,7 @@ def generate():
             trade_country = getloc_country
             token_name = id + mail
             fruuty_token = token.fruuty_token(
-                fruuty_toke_amount,
+                amount=fruutty_token_amount,
                 name=token_name,
                 user_id=user_id,
                 token_id=token_id,
@@ -149,6 +197,8 @@ def generate():
     return render_template('generate.html')
 
 
+
+
 @fruutty_token_bp.route('/scanner', methods=['GET', 'POST'])
 @login_required
 def scanner():
@@ -165,27 +215,95 @@ def scanner():
             json_response = json.loads(data)
             print('json loads = ', json_response)
             print(json_response['token_id'])
+
+            amount = float(json_response['token_amount'])
+            token_type = json_response['token_type']
+            origin_user_id = json_response['user_id']
+            
+            # ✅ Use alphanumeric user_id
+            origin_user = Users.query.filter_by(user_id=origin_user_id).first()
+
+            # Prevent invalid user or self-scan
+            if not origin_user or origin_user.user_id == current_user.user_id:
+                flash('Invalid scanned user or self-scan is not allowed.')
+                return render_template('error.html')
+
             if json_response['token_type'] == 'money':
-                current_user_tokens = current_user.fruutty_token
-                current_user.fruutty_token = current_user_tokens + float(json_response['token_amount'])
-                db.session.commit()
+                if current_user.fruutty_token <= 0:
+                    flash("Transaction failed: Zero fruutty tokens available.", "error")
+                    return redirect(url_for('fruutty_token.scanner'))
+                if current_user.fruutty_token < amount:
+                    flash("Transaction failed: Insufficient Fruutty token balance.", "error")
+                    return redirect(url_for('fruutty_token.scanner'))
+
+                # ✅ Origin user (sender) validation
+                if not origin_user:
+                    flash("Transaction failed: Origin user not found.", "error")
+                    return redirect(url_for('fruutty_token.scanner'))
+
+                if origin_user.fruutty_token <= 0:
+                    flash("Transaction failed: Origin user has zero balance.", "error")
+                    return redirect(url_for('fruutty_token.scanner'))
+
+                if origin_user.fruutty_token < amount:
+                    flash("Transaction failed: Origin user does not have enough tokens.", "error")
+                    return redirect(url_for('fruutty_token.scanner'))
+
+                # ------------------ ✅ ADDED: signature verification ------------------
+                import hashlib
+                from config import Config  # make sure Config is available at top of file
+
+                sig_input = f"{json_response['user_id']}|{json_response.get('name','')}|{json_response['token_id']}|{json_response['token_type']}|fruutty|{Config.FLASK_SECRET_KEY}"
+                expected_sig = hashlib.sha3_512(sig_input.encode('utf-8')).hexdigest()
+                scanned_sig = json_response.get('signature', '')
+
+                if scanned_sig != expected_sig:
+                    flash("Transaction failed: QR token signature mismatch. Possible tampering detected.", "error")
+                    return redirect(url_for('fruutty_token.scanner'))
+                # --------------------------------------------------------------------
+
+                # ✅ Safe balance update
+                # current_user.fruutty_token += amount
+                # origin_user.fruutty_token -= amount
+
+
+
+                # Add to scanner, subtract from scanned
+                current_user.fruutty_token += amount
+                origin_user.fruutty_token -= amount
+
+                # current_user_tokens = current_user.fruutty_token
+                # current_user.fruutty_token = float(current_user_tokens) + float(json_response['token_amount'])
+
+            elif token_type == 'product':
+                if current_user.fruutty_token <= 0:
+                    flash("Transaction failed: Zero fruutty tokens available.", "error")
+                    return redirect(url_for('fruutty_token.scanner'))
+                if current_user.fruutty_token < amount:
+                    flash("Transaction failed: Insufficient Fruutty token balance.", "error")
+                    return redirect(url_for('fruutty_token.scanner'))
+                # Subtract from scanner, add to scanned
+                current_user.fruutty_token -= amount
+                origin_user.fruutty_token += amount
+
+            db.session.commit()
                 # process the user token transaction
-                user_transaction = Fruutty_transactions(
-                    user_id=current_user.user_id,
-                    token_id=json_response['token_id'],
-                    token_type=json_response['token_type'],
-                    product_name=json_response['product_name'],
-                    store_name=json_response['store_name'],
-                    token_amount=json_response['token_amount'],
-                    from_owner=json_response['user_id'],
-                    location=city,
+            user_transaction = Fruutty_transactions(
+                user_id=current_user.user_id,
+                token_id=json_response['token_id'],
+                token_type=json_response['token_type'],
+                product_name=json_response['product_name'],
+                store_name=json_response['store_name'],
+                token_amount=json_response['token_amount'],
+                from_owner=json_response['user_id'],
+                location=city,
                 )
-                db.session.add(user_transaction)
-                db.session.commit()
-            elif json_response['token_type'] == 'product':
-                current_user_tokens = current_user.fruutty_token
-                current_user.fruutty_token = current_user_tokens - float(json_response['token_amount'])
-                db.session.commit()
+            db.session.add(user_transaction)
+            db.session.commit()
+           # elif json_response['token_type'] == 'product':
+            #    current_user_tokens = current_user.fruutty_token
+             #   current_user.fruutty_token = float(current_user_tokens) - float(json_response['token_amount'])
+              #  db.session.commit()
             flash('token', data)
             return render_template('scanner_results.html',
                                    # store_name=json_response['store_name'],
@@ -207,6 +325,7 @@ def scanner():
 
     return render_template('scanner.html', )
 
+
 @fruutty_token_bp.route('/send-token', methods=['GET', 'POST'])
 @login_required
 def send_token():
@@ -214,38 +333,70 @@ def send_token():
     if current_user.role == rep:
         flash('login to access this page')
         return render_template('index.html')
+
     recieving_email = request.form.get('recieving_email', False)
     token_amount_to_send = request.form.get('token_amount_to_send', False)
+
     if request.method == 'POST':
-        sender_email = current_user.email
+        # --- ADD: basic validations (additive only) ---
+        if not recieving_email:
+            flash('Please enter a recipient email.')
+            return render_template('send_token.html')
+
         reciever_email = Users.query.filter_by(email=recieving_email).first()
+        if not reciever_email:
+            flash('Recipient not found.')
+            return render_template('send_token.html')
 
+        if reciever_email.id == current_user.id:
+            flash('You cannot send tokens to yourself.')
+            return render_template('send_token.html')
+
+        # Parse amount
+        try:
+            amount_to_send = float(token_amount_to_send)
+        except (TypeError, ValueError):
+            flash('Invalid token amount.')
+            return render_template('send_token.html')
+
+        if amount_to_send <= 0:
+            flash('Amount must be greater than zero.')
+            return render_template('send_token.html')
+
+        # Ensure sender has enough BEFORE any conversion logic
+        sender_balance = float(current_user.fruutty_token or 0)
+        if sender_balance < amount_to_send:
+            flash('Insufficient tokens to send.')
+            return render_template('send_token.html')
+
+        # Keep your originals
+        sender_email = current_user.email
         currency_pair = Currency_Pairs()
-        # get the current user location country trading value
-        multiplire = countries[f'{getloc_country}']
-        # Get the trading value from Ftvs database table
-        # trade_value = db.session.execute(db.select(User).order_by(User.username)).scalars()
+
+        # Be safe if getloc_country / countries isn’t available for any reason
+        try:
+            multiplire = countries[f'{getloc_country}']
+        except Exception:
+            multiplire = 1.0
+
+        # Ftvs average
         trade_value = db.session.execute(db.select(Ftvs).order_by(Ftvs.average)).scalar()
-        token_trade_value = trade_value.average
+        token_trade_value = float(trade_value.average)
 
-        """
-        Admin section to send tokens
-        """
-        """
-        if 'confirm_email' in session:
-            admin_email = session['confirm_email']
-            admin_email_in_db = Employee_login.query.filter_by(email=admin_email).first()
-            
-            if admin_email_in_db.e
-        """
-
+        # ------- Your existing branching logic, with ONLY additive fixes -------
+        # SA -> US
         if current_user.country == SOUTH_AFRICA and reciever_email.country == UNITED_STATES:
             usa_token_amount = float(token_amount_to_send) * float(multiplire)
             usa_token = usa_token_amount / float(token_trade_value)
-            #
-            reciever_tokens = float(reciever_email.fruutty_token)
+
+            # ADD: make sure reciever_tokens exists
+            reciever_tokens = float(reciever_email.fruutty_token or 0)
             reciever_email.fruutty_token = reciever_tokens + float(usa_token)
-            #
+
+            # ADD: deduct from sender (raw amount_to_send)
+            current_user.fruutty_token = float(current_user.fruutty_token or 0) - amount_to_send
+
+            # sending tokens
             sent_tokens = Sent_tokens(
                 user_id=current_user.user_id,
                 token_reference=random_chars(8),
@@ -253,7 +404,7 @@ def send_token():
                 token_value=usa_token,
                 receiver=recieving_email,
             )
-            # recieving tokens
+            # receiving tokens
             received_tokens = Received_tokens(
                 user_id=current_user.user_id,
                 token_reference=random_chars(8),
@@ -263,16 +414,23 @@ def send_token():
             )
             db.session.add(sent_tokens)
             db.session.add(received_tokens)
+
+            # ADD: define this so your print line can work if you keep it
+            sa_token_to_send = usa_token
             db.session.commit()
             print('SA Token To Send ', sa_token_to_send)
 
+        # US -> SA
         if current_user.country == UNITED_STATES and reciever_email.country == SOUTH_AFRICA:
             us_to_sa_token_amount = float(token_amount_to_send) / float(multiplire)
             us_to_sa_token = us_to_sa_token_amount / float(token_trade_value)
 
-            reciever_tokens = float(reciever_email.fruutty_token)
+            reciever_tokens = float(reciever_email.fruutty_token or 0)
             reciever_email.fruutty_token = reciever_tokens + float(us_to_sa_token)
 
+            # ADD: deduct from sender
+            current_user.fruutty_token = float(current_user.fruutty_token or 0) - amount_to_send
+
             # sending tokens
             sent_tokens = Sent_tokens(
                 user_id=current_user.user_id,
@@ -281,7 +439,7 @@ def send_token():
                 token_value=us_to_sa_token,
                 receiver=recieving_email,
             )
-            # recieving tokens
+            # receiving tokens
             received_tokens = Received_tokens(
                 user_id=current_user.user_id,
                 token_reference=random_chars(8),
@@ -294,12 +452,16 @@ def send_token():
             db.session.commit()
             print('RECIEVER EMAIl ', reciever_email.email)
 
+        # US -> US
         elif current_user.country == UNITED_STATES and reciever_email.country == UNITED_STATES:
-            usa_to_usa_token_amount = float(token_amount_to_send)  * float(multiplire)
+            usa_to_usa_token_amount = float(token_amount_to_send) * float(multiplire)
             usa_to_usa_token = usa_to_usa_token_amount / float(token_trade_value)
 
-            reciever_tokens = float(reciever_email.fruutty_token)
+            reciever_tokens = float(reciever_email.fruutty_token or 0)
             reciever_email.fruutty_token = reciever_tokens + float(usa_to_usa_token)
+
+            # ADD: deduct from sender
+            current_user.fruutty_token = float(current_user.fruutty_token or 0) - amount_to_send
 
             # sending tokens
             sent_tokens = Sent_tokens(
@@ -309,7 +471,7 @@ def send_token():
                 token_value=usa_to_usa_token,
                 receiver=recieving_email,
             )
-            # recieving tokens
+            # receiving tokens
             received_tokens = Received_tokens(
                 user_id=current_user.user_id,
                 token_reference=random_chars(8),
@@ -322,20 +484,20 @@ def send_token():
             db.session.commit()
             print('RECIEVER EMAIl ', reciever_email.email)
 
-
-
+        # SA -> not SA (foreign)
         if current_user.country == SOUTH_AFRICA and reciever_email.country != SOUTH_AFRICA:
             """
-            ##################################################################
             Convert and Exchange foreign token to the equivalent of trade value
             of the South African Rand (ZAR)
-            ##################################################################
             """
             foreign_token_amount = float(token_amount_to_send) * float(countries[f'{current_user.country}'])
             forein_token = float(foreign_token_amount) / float(token_trade_value)
 
-            reciever_tokens = float(reciever_email.fruutty_token)
+            reciever_tokens = float(reciever_email.fruutty_token or 0)
             reciever_email.fruutty_token = reciever_tokens + float(forein_token)
+
+            # ADD: deduct from sender
+            current_user.fruutty_token = float(current_user.fruutty_token or 0) - amount_to_send
 
             # sending tokens
             sent_tokens = Sent_tokens(
@@ -345,7 +507,7 @@ def send_token():
                 token_value=forein_token,
                 receiver=recieving_email,
             )
-            # recieving tokens
+            # receiving tokens
             received_tokens = Received_tokens(
                 user_id=current_user.user_id,
                 token_reference=random_chars(8),
@@ -358,18 +520,19 @@ def send_token():
             db.session.commit()
             print('RECIEVER EMAIl ', reciever_email.email)
 
+        # Same country as getloc_country
         if current_user.country == getloc_country and reciever_email.country == getloc_country:
             if getloc_country == SOUTH_AFRICA:
                 """
-                ##########################################################
-                Convert and Send tokens from South Africa to a 
-                South African Recipient
-                ##########################################################
+                Convert and Send tokens from South Africa to a South African Recipient
                 """
-                sa_token_to_send = float(token_amount_to_send) / float(token_trade_value)
+                sa_token_to_send = float(token_amount_to_send) # / float(token_trade_value)
 
-                reciever_tokens = float(reciever_email.fruutty_token)
+                reciever_tokens = float(reciever_email.fruutty_token or 0)
                 reciever_email.fruutty_token = reciever_tokens + float(sa_token_to_send)
+
+                # ADD: deduct from sender
+                current_user.fruutty_token = float(current_user.fruutty_token or 0) - amount_to_send
 
                 sent_tokens = Sent_tokens(
                     user_id=current_user.user_id,
@@ -378,7 +541,7 @@ def send_token():
                     token_value=sa_token_to_send,
                     receiver=recieving_email,
                 )
-                # recieving tokens
+                # receiving tokens
                 received_tokens = Received_tokens(
                     user_id=current_user.user_id,
                     token_reference=random_chars(8),
@@ -392,20 +555,19 @@ def send_token():
                 print('SA Token To Send ', sa_token_to_send)
 
             else:
-
                 """
                 Token amount to send divided by that user country trading value
                 then multiply by token value
-    
                 """
                 tokens_amount_value = float(token_amount_to_send) / float(countries[f'{getloc_country}'])
                 tokens_to_send = tokens_amount_value / float(token_trade_value)
 
-                reciever_tokens = float(reciever_email.fruutty_token)
+                reciever_tokens = float(reciever_email.fruutty_token or 0)
                 reciever_email.fruutty_token = reciever_tokens + float(tokens_to_send)
-                """
-                send and record tokens into Sent and Recieved tokens tables
-                """
+
+                # ADD: deduct from sender
+                current_user.fruutty_token = float(current_user.fruutty_token or 0) - amount_to_send
+
                 # sending tokens
                 sent_tokens = Sent_tokens(
                     user_id=current_user.user_id,
@@ -414,7 +576,7 @@ def send_token():
                     token_value=tokens_to_send,
                     receiver=recieving_email,
                 )
-                # recieving tokens
+                # receiving tokens
                 received_tokens = Received_tokens(
                     user_id=current_user.user_id,
                     token_reference=random_chars(8),
@@ -426,7 +588,6 @@ def send_token():
                 db.session.add(received_tokens)
                 db.session.commit()
                 print('RECIEVER EMAIl 2 ', reciever_email.email)
-
 
         return render_template('token_sent.html')
 
@@ -440,9 +601,9 @@ def product_token():
     if current_user.role == rep:
         flash('login to access this page')
         return render_template('index.html')
-    fruuty_toke_amount = request.form.get('fruutty_token', False)
-    product_name = request.form.get('product_token', False)
 
+    fruutty_token_amount = request.form.get('fruutty_token', False)  # <-- amount
+    product_name = request.form.get('product_token', False)          # <-- product name
 
     """
     ##############################################
@@ -466,6 +627,24 @@ def product_token():
         print('current user', current_user.id)
         print('current user', current_user.email)
 
+        # ✅ convert amount to int for validation
+        try:
+            entered_amount = int(fruutty_token_amount)
+        except (ValueError, TypeError):
+            flash("Invalid token amount entered.")
+            return render_template('product_token.html')
+
+        # ✅ check 1: not zero or negative
+        if entered_amount <= 0:
+            flash("You cannot generate zero or negative tokens.")
+            return render_template('product_token.html')
+
+        # ✅ check 2: must not exceed available balance
+        if entered_amount > current_user.fruutty_token:
+            flash("You do not have enough Fruutty tokens available.")
+            return render_template('product_token.html')
+
+        # continue with generation if checks pass
         token = Token()
         mail = current_user.email
         id = str(current_user.id)
@@ -475,17 +654,17 @@ def product_token():
         user_country = current_user.country
         trade_country = getloc_country
         token_name = id + mail
+
         fruuty_token = token.fruuty_token(
-            fruuty_toke_amount,
+            amount=entered_amount,        # now safe integer
             name=token_name,
             user_id=user_id,
             token_id=token_id,
             token_type=produt_token,
-            product_name=product_name,
+            product_name=product_name,    # stays as text
             city=city,
             user_country=user_country,
             trade_country=trade_country,
-
         )
         print(fruuty_token)
 
@@ -498,6 +677,7 @@ def product_token():
         return render_template('product_token.html', token=encoded_qr_image.decode('utf-8'))
 
     return render_template('product_token.html')
+
 
 @fruutty_token_bp.route('/sent-tokens', methods=['GET', 'POST'])
 @login_required

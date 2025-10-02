@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirecting to PayFast...</title>
+</head>
+<body onload="document.forms['payfast_form'].submit()">
+    <form name="payfast_form" action="https://www.payfast.co.za/eng/process" method="post">
+        {% for key, value in pfData.items() %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endfor %}
+        <noscript>
+            <input type="submit" value="Click here if not redirected automatically">
+        </noscript>
+    </form>
+</body>
+</html>
+

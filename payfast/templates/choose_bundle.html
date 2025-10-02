@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Token Bundle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0;
+            margin: 0;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .bundle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .bundle-card {
+            background: #fff;
+            border: 2px solid #007bff;
+            border-radius: 12px;
+            padding: 30px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #007bff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+
+        .bundle-card:hover {
+            background: #007bff;
+            color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body>
+    <h2>Select a Token Bundle</h2>
+
+    <div class="bundle-grid">
+        {% for b in bundles %}
+        <a href="{{ url_for('payfast_bp.buy', bundle=b) }}" class="bundle-card">
+            {{ b }} Tokens
+        </a>
+        {% endfor %}
+    </div>
+</body>
+</html>

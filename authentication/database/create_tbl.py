@@ -13,7 +13,7 @@ import datetime
 from sqlalchemy import DateTime
 from sqlalchemy.sql import func
 from typing import List
-from sqlalchemy import ForeignKey, String, Integer, CHAR, Boolean, Column
+from sqlalchemy import ForeignKey, String, Integer, CHAR, Boolean, Column, Numeric
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import relationship, mapped_column
@@ -400,6 +400,57 @@ class Music(Base):
                f'song_link={self.song_link!r}, lyrics={self.lyrics!r}, ' \
                f'date={self.date!r})'
 
+# PayFast section
+
+class PayFastUsers(Base):
+    __tablename__ = "payfast_users"
+    id = Column(Integer, primary_key=True)
+    email = Column(String(255), unique=True, nullable=False)
+    # add other fields if needed
+
+
+class TokenPurchase(Base):
+    __tablename__ = "token_purchases"
+    id = Column(Integer, primary_key=True)
+    user_email = Column(String(255), nullable=False)
+    user_id = Column(Integer, ForeignKey("payfast_users.id"), nullable=True)
+    bundle_id = Column(Integer, nullable=True)  # optional
+    amount = Column(Numeric(12, 2), nullable=False)
+    status = Column(String(30), default="pending")
+    payfast_ref = Column(String(255), nullable=True)
+    m_payment_id = Column(String(128), nullable=True, unique=True)
+    created_at = Column(
+        DateTime(timezone=True), 
+        nullable=False, 
+        default=datetime.datetime.utcnow
+    )
+
+    user = relationship("PayFastUsers")
+
+
+class QRToken(Base):
+    __tablename__ = "qr_tokens"
+    id = Column(Integer, primary_key=True)
+    purchase_id = Column(Integer, ForeignKey("token_purchases.id"), nullable=False)
+    token_code = Column(String(128), unique=True, nullable=False)
+    token_value = Column(Numeric(12, 2), nullable=False)
+    qr_path = Column(String(255), nullable=True)
+    used = Column(Boolean, default=False)
+    created_at = Column(
+        DateTime(timezone=True), 
+        nullable=False, 
+        default=datetime.datetime.utcnow
+    )
+
+    purchase = relationship("TokenPurchase")
+
+
+
+
+
+
+
+
 connection_string = 'mysql+pymysql://root:#FruuttydbPassword123@localhost/Fruutty'
 engine = create_engine(connection_string, echo=True)
 
@@ -411,13 +462,13 @@ with Session(engine) as session:
 
     user = Users(
         user_id='fruutty' +'-' + random_chars(8) + '-' + 'admin',
-        username='echkmedev',
-        email=Config.UCONRA_EMAIL,
+        username='ehckmedev',
+        email='ehckmedev@gmail.com',
         password=register.userPassword(Config.ADMIN),
         otp='9999',
         confirmed=True,
         confirmed_at=func.now(),
-        country='united states',
+        country='south africa',
         role='admin'
 
     )

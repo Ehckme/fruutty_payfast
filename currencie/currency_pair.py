@@ -63,7 +63,7 @@ class Currency_Pairs:
         """ ######### USD - ZAR CURRENCY PAIR CONVERSION SECTION ###############"""
         self.us_zar_tr = soup.find('tr', attrs={'data-rowkey': 'FX_IDC:USDZAR'})
         self.us_zar_td = self.us_zar_tr.find('td', attrs={'class': 'cell-RLhfr_y4 right-RLhfr_y4'})
-        self.us_zar_linktag = self.us_zar_tr.find('a', attrs={'title': 'USDZAR − U.S. DOLLAR / SOUTH AFRICAN RAND'})
+        self.us_zar_linktag = self.us_zar_tr.find('sup', attrs={'title': 'U.S. DOLLAR / SOUTH AFRICAN RAND'})
         self.us_zar_linktagText = self.us_zar_linktag.get_text()
         self.us_zar_text = self.us_zar_td.get_text()
         self.USD_ZAR = float(self.us_zar_text)

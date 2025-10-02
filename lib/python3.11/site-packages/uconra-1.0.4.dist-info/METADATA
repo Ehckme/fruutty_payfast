@@ -1,0 +1,146 @@
+Metadata-Version: 2.1
+Name: uconra
+Version: 1.0.4
+Summary: Application security authenticater
+Author-email: motchello <motchello@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2024 UCONRA
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+        
+        
+Project-URL: Homepage, https://github.com/Uconra/uconra
+Project-URL: Issues, https://github.com/Uconra/uconra/issues
+Keywords: security,password,hashing,applications
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Intended Audience :: Developers
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: argon2-cffi >=23.1.0
+Requires-Dist: argon2-cffi-bindings >=21.2.0
+Requires-Dist: certifi >=2024.8.30
+Requires-Dist: cffi >=1.17.1
+Requires-Dist: charset-normalizer >=3.3.2
+Requires-Dist: dnspython >=2.6.1
+Requires-Dist: idna >=3.10
+Requires-Dist: pycparser >=2.22
+Requires-Dist: PyJWT >=2.9.0
+Requires-Dist: requests >=2.32.3
+Requires-Dist: urllib3 >=2.2.3
+
+# UCONRA
+## An application security hasher, tokenization and SMTP creator
+
+uconra is a simple application Authentication security 
+password hasher and basic tokenization and smtp creator for
+basic python, flask or django applications
+
+### Installation
+'''python
+
+    pip install uconra
+'''
+
+# Different usages for different use cases.
+
+### Usage for password hashing and email validation
+
+'''python
+
+    from uconra.register import Register
+
+    pass_word = 'enter_your_password'
+    user_email = 'cody@gmail.com'
+
+    email = str(register.userEmail(user_email))
+
+    password = register.userPassword(pass_word)
+
+    print(password)
+
+'''
+
+###  Usage for creating basic j_wt token
+'''python
+    
+    from uconra.j_wt import JWT
+
+    token = JWT()
+
+    login_token = token.generate_jwt_token('cody@gmail.com', key='3uiojjkskdpeisjdjfl')
+
+    print(f"encoded jwt token : {login_token}")
+
+    decode_login_token = token.decode_jwt_token(login_token)
+
+    print(decode_login_token['email'])
+
+    print(f"decoded jwt token : {decode_login_token}")
+'''
+
+### smtp basic usage setup
+
+'''python
+    
+    
+    from uconra.smtp_mail import SMTP_Mail
+
+    confirm_message = MailMessage()
+    """
+    app_pw = 'hjdj j3l2 guess whaid'
+    myMail = 'cody@gmail.com'
+    mail_server = 'smtp.gmail.com:587'
+    ehlo = 'Gmail'
+    message = 'Here goes your message'
+    user = 'user@gmail.com'
+    OTP = 1324
+    """
+
+    sendMail = SMTP_Mail(
+    appKey=app_pw, userMail=email,
+    senderMail=myMail, serverEhlo=ehlo,
+    smtpServer=mail_server,
+    subject='TEST SUBJECT', userName=username,
+    message=confirm_message.confirm_message(token=login_token, otp=OTP),
+                    )
+   
+    sendMail.sendMail()
+
+'''
+
+### Mail message for the above smtp usage
+
+'''python
+
+    from uconra.email_message import MailMessage
+
+    message = MailMessage()
+
+    print(message.confirm_message(token=7890))
+'''
+
+
+

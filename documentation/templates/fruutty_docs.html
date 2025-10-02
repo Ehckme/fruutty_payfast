@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fruutty | Token-Based Payments & Digital Marketplace Documentation & User Guide</title>
+    <meta name="description" content="Fruutty Documentation & User Guide – Learn how to create accounts, buy tokens, trade, and use the Fruutty digital marketplace.">
+    <meta name="keywords" content="Fruutty, Token, Payments, Digital Marketplace, Blockchain, P2P, User Guide, Documentation">
+    <meta name="author" content="Fruutty">
+    <link rel="shortcut icon" type="image/x-icon"
+          href="{{ url_for('fruutty_token.static', filename='img/fruutty_icons/android_chrome_192x192.png') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #f5f5f5;
+            border-bottom: 2px solid #ff69b4;
+            padding: 20px 40px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+            color: #ff69b4;
+        }
+        main {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        h2, h3 {
+            color: #007bff;
+        }
+        h3 {
+            margin-top: 1.5em;
+        }
+        p, li {
+            font-size: 1rem;
+            margin-bottom: 0.8em;
+        }
+        ul {
+            margin: 0 0 1.2em 20px;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        a {
+            color: #ff69b4;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        section {
+            margin-bottom: 2em;
+        }
+        .note {
+            background-color: #fff0f5;
+            border-left: 4px solid #ff69b4;
+            padding: 10px 15px;
+            margin-bottom: 1em;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Fruutty Documentation</h1>
+</header>
+
+<main>
+    <section>
+        <h2>3️⃣ Getting Started with Fruutty</h2>
+        
+        <h3>1 • Account Creation & Login</h3>
+        <p>To create an account and sign up with Fruutty, follow these steps:</p>
+        <ul>
+            <li>Go to <a href="https://fruutty.com" target="_blank">https://fruutty.com</a>. Click the spinning Fruutty token coin.</li>
+            <li>Click the <strong>Signup</strong> button. Fill in:</li>
+            <ul>
+                <li>Username (random or preferred)</li>
+                <li>Valid email address</li>
+                <li>Custom password (6–16 characters)</li>
+            </ul>
+            <li>Click <strong>Signup</strong>.</li>
+        </ul>
+
+        <h3>2 • OTP Confirmation & Email Validation</h3>
+        <ul>
+            <li>After signup, you will be taken to the OTP Confirmation page.</li>
+            <li>Check your email inbox or spam for noreply@fruutty.com and the "CONFIRM" email.</li>
+            <li>Click the confirmation button or copy the OTP code into the input field.</li>
+            <li>After confirmation, you'll see "Account successfully confirmed". Click <strong>Go to Login</strong>.</li>
+        </ul>
+
+        <h3>3 • Login to Fruutty</h3>
+        <ul>
+            <li>Enter your registered email and password.</li>
+            <li>Click <strong>Login</strong> to access Fruutty.</li>
+        </ul>
+
+        <h3>4 • Inside Fruutty Application</h3>
+        <p>The first page is the <strong>Scanner</strong>. Standard layout includes:</p>
+        <ul>
+            <li><strong>Buy Tokens:</strong> Top-left button. Click to view token bundles (10, 50, 100, 200, 300, 500, 1000, 2000, 3000, 5000). Clicking an amount takes you to PayFast for payment.</li>
+            <li><strong>Hamburger Menu:</strong> Click to reveal navigation drawer:</li>
+            <ul>
+                <li><strong>Scan:</strong> Scan tokens for money or product purchases. Approve tokens and view receipt.</li>
+                <li><strong>Token:</strong> Create money or product tokens. Enter amount and product name (if applicable), then click <strong>Create Token</strong>.</li>
+                <li><strong>Send:</strong> Peer-to-peer token sending to valid Fruutty accounts. Enter recipient email and amount, then click <strong>Send</strong>.</li>
+                <li><strong>Market:</strong> Community marketplace with Fruutty player. Play featured music and click ads to visit advertiser sites.</li>
+            </ul>
+        </ul>
+
+        <h3>5 • Security Features</h3>
+        <p>Fruutty uses:</p>
+        <ul>
+            <li>Argon2 for secure password hashing</li>
+            <li>Google reCAPTCHA for login validation</li>
+            <li>JWT for encryption</li>
+            <li>Custom Uconra security validation encryption (available on PyPI)</li>
+        </ul>
+
+        <h3>6 • Support & Contact</h3>
+        <p>For any queries, contact <a href="mailto:support@fruutty.com">support@fruutty.com</a>. Response time: 24 hours to 7 days.</p>
+    </section>
+</main>
+
+</body>
+</html>
+

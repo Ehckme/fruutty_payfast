@@ -11,6 +11,83 @@ import pandas
 from currencie.currency_pair import Currency_Pairs
 from flask import request
 
+
+
+
+
+# trading_countries.py
+import pandas as pd
+
+
+currency_pair = Currency_Pairs()
+
+# Predefined exchange rates
+countries = {
+    'South Africa': currency_pair.usd_zar(),
+    'Angola': currency_pair.aoa_zar(),
+    'Botswana': currency_pair.bwp_zar(),
+    'République démocratique du Congo': currency_pair.cdf_zar(),
+    'Ghana': currency_pair.ghs_zar(),
+    'Lesotho': currency_pair.lsl_zar(),
+    'Malawi': currency_pair.mwk_zar(),
+    'Moçambique': currency_pair.mzn_zar(),
+    'Namibia': currency_pair.nad_zar(),
+    'Nigeria': currency_pair.ngn_zar(),
+    'Kenya': currency_pair.kes_zar(),
+    'Soomaaliya الصومال': currency_pair.sos_zar(),
+    'eSwatini': currency_pair.szl_zar(),
+    'Uganda': currency_pair.ugx_zar(),
+    '日本': currency_pair.jpy_zar(),
+    'United Kingdom': currency_pair.gbp_zar(),
+    'Australia': currency_pair.aud_zar(),
+    'Canada': currency_pair.cad_zar(),
+    'Schweiz/Suisse/Svizzera/Svizra': currency_pair.chf_zar(),
+    'Россия': currency_pair.rub_zar(),
+    'India': currency_pair.inr_zar(),
+    'Brasil': currency_pair.brl_zar(),
+    'الكويت': currency_pair.kwd_zar(),
+}
+
+def get_user_country():
+    """Fetch user country code safely from ipinfo.io"""
+    try:
+        url = "http://ipinfo.io/json"
+        response = get(url, timeout=5)
+        data = response.json()
+        return data.get("country")  # safe get()
+    except Exception as e:
+        return None
+
+def resolve_location(country_code: str | None):
+    """Use Nominatim to resolve a human-readable location"""
+    if not country_code:
+        return None
+    try:
+        loc = Nominatim(user_agent="GetLoc")
+        return loc.geocode(country_code)
+    except Exception:
+        return None
+
+def term1():
+    """Build a pandas DataFrame with location + exchange rate"""
+    country_code = get_user_country()
+    loc = resolve_location(country_code)
+    return pd.DataFrame(
+        {
+            "Country": loc.address if loc else "Unknown",
+            "Symbol": country_code if country_code else "N/A",
+            "Value": countries.get("République démocratique du Congo"),  # example value
+        },
+        index=[1],
+    )
+
+if __name__ == "__main__":
+    df = term1()
+    print(df)
+    df.to_excel("currency_pair.xlsx", sheet_name="Sheet", index=False)
+
+
+"""
 currency_pair = Currency_Pairs()
 usd_zar = currency_pair.usd_zar()
 bwp_zar = currency_pair.bwp_zar()
@@ -100,3 +177,4 @@ if __name__ == "__main__":
 
     # print term1() data
     print(term1())
+"""

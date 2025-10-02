@@ -1,0 +1,23 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Editor / IDE files
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+
+# Logs
+*.log
+
+# SQLite or instance folders if not needed
+*.sqlite3
+instance/

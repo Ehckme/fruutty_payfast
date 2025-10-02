@@ -72,7 +72,7 @@ def sign_up():
         token = JWT()
         # Generate a user token
         user_token = token.generate_jwt_token(email, key=Config.FLASK_SECRET_KEY)
-        link = 'http://127.0.0.1:5000/jwt-confirm/' + user_token
+        link = 'http://0.0.0.0:5000/jwt-confirm/' + user_token
 
         # check email
         if not email:

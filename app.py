@@ -23,8 +23,15 @@ from authentication.logout.logout import logout_bp
 from fruutty_token.fruutty_token import fruutty_token_bp
 from fruutty_player.fruutty_player import fruuty_player_bp
 
+''' ####################  import PayFast  Blueprints #########################'''
+
+from payfast.token_sales import payfast_bp
+
 ''' ####################  import Employees Blueprints #########################'''
 from employees.employees import employees_bp
+
+''' ####################  import documentation  Blueprints #########################'''
+from documentation.fruutty_docs import documentation_bp
 
 ''' ####################  import authentication Blueprints #########################'''
 from authentication.login.login import login_bp
@@ -114,6 +121,14 @@ Fruutty Token Blueprint section
 app.register_blueprint(fruutty_token_bp)
 app.register_blueprint(fruuty_player_bp)
 
+"""----------  PayFast  Blueprints Section -------"""
+
+app.register_blueprint(payfast_bp, url_prefix="/payfast")
+
+"""----------  fruutty_docs  Blueprints Section -------"""
+
+app.register_blueprint(documentation_bp, url_prefix="/documentation")
+
 """----------  Employee Blueprints Section -------"""
 app.register_blueprint(employees_bp)
 
@@ -144,6 +159,8 @@ main app config routes section
 """
 Hamdle 404 errors and return index html for login
 """
+
+
 
 @app.errorhandler(404)
 # inbuilt function which takes error as parameter
@@ -663,4 +680,4 @@ with app.app_context():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
